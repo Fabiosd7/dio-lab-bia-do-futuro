@@ -1,6 +1,5 @@
 import streamlit as st
 import requests
-import json
 
 st.title("Meu Assistente Virtual")
 st.write("Conectado com IA real via OpenRouter!")
@@ -24,25 +23,32 @@ if user_input := st.chat_input("Digite sua mensagem..."):
     else:
         with st.spinner("Pensando..."):
             try:
-                # Mudamos para o modelo Gemini 1.5 Flash Gratuito do OpenRouter
+                headers = {
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json"
+                }
+                
+                payload = {
+                    "model": "google/gemini-flash-1.5-8b:free",
+                    "messages": [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
+                }
+                
                 response = requests.post(
                     url="https://openrouter.ai",
-                    headers={
-                        "Authorization": f"Bearer {api_key}",
-                        "Content-Type": "application/json"
-                    },
-                    data=json.dumps({
-                        "model": "google/gemini-flash-1.5-8b:free",
-                        "messages": [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
-                    })
+                    headers=headers,
+                    json=payload
                 )
                 
-                if response.status_code == 200:
-                    bot_response = response.json()["choices"]["message"]["content"]
+                # Exibe o status caso não seja 200 (Sucesso)
+                if response.status_code != 200:
+                    st.error(f"Erro na API (Status {response.status_code}): {response.text}")
+                else:
+                    data = response.json()
+                    bot_response = data["choices"][0]["message"]["content"]
                     with st.chat_message("assistant"):
                         st.write(bot_response)
                     st.session_state.messages.append({"role": "assistant", "content": bot_response})
-                else:
-                    st.error(f"Erro na API: {response.status_code} - {response.text}")
+                    
             except Exception as e:
-                st.error(f"Falha na conexão: {str(e)}")
+                st.error(f"Falha técnica na requisição: {str(e)}")
+
