@@ -5,7 +5,6 @@ import json
 st.title("Meu Assistente Virtual")
 st.write("Conectado com IA real via OpenRouter!")
 
-# Recupera a chave de API salva nos segredos do Streamlit
 api_key = st.secrets.get("OPENROUTER_API_KEY")
 
 if "messages" not in st.session_state:
@@ -25,7 +24,7 @@ if user_input := st.chat_input("Digite sua mensagem..."):
     else:
         with st.spinner("Pensando..."):
             try:
-                # Faz a chamada para um modelo gratuito excelente (Llama 3 8B)
+                # Mudamos para o modelo Gemini 1.5 Flash Gratuito do OpenRouter
                 response = requests.post(
                     url="https://openrouter.ai",
                     headers={
@@ -33,7 +32,7 @@ if user_input := st.chat_input("Digite sua mensagem..."):
                         "Content-Type": "application/json"
                     },
                     data=json.dumps({
-                        "model": "meta-llama/llama-3-8b-instruct:free",
+                        "model": "google/gemini-flash-1.5-8b:free",
                         "messages": [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
                     })
                 )
@@ -47,4 +46,3 @@ if user_input := st.chat_input("Digite sua mensagem..."):
                     st.error(f"Erro na API: {response.status_code} - {response.text}")
             except Exception as e:
                 st.error(f"Falha na conexão: {str(e)}")
-
