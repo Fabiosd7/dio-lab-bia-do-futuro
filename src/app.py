@@ -12,9 +12,8 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 # 2. Busca os dados fictícios online direto do seu GitHub
 @st.cache_data
 def carregar_dados_online():
-    # LINK CORRIGIDO: Aponta diretamente para o seu arquivo de dados fictícios
- url_raw = "https://githubusercontent.com"
-
+    # Endereço raw oficial para o Python ler seus dados sem erro
+    url_raw = "https://githubusercontent.com"
     
     try:
         resposta = requests.get(url_raw)
