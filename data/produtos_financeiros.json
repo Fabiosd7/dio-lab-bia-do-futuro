@@ -61,6 +61,39 @@
       "comparativo_poupanca": "Você sabe exatamente o valor final no dia da compra. Se os juros da economia caírem, ele continua rendendo muito."
     },
     {
+      "sigla": "Tesouro RendA+",
+      "nome": "Título Público focado em Aposentadoria",
+      "tipo": "Investimento Governamental",
+      "risco": "Baixo (Foco em longuíssimo prazo)",
+      "liquidez": "弾No Vencimento (Paga parcelas mensais por 20 anos no futuro)",
+      "garantia_FGC": false,
+      "perfis_compativeis": ["Conservador", "Moderado"],
+      "rentabilidade_simulada": "IPCA (Inflação) + Taxa de Juros Real (Ex: IPCA + 6.20% ao ano)",
+      "comparativo_poupanca": "Criado especificamente para previdência complementar. Planeja o futuro muito melhor que os rendimentos estagnados da Poupança."
+    },
+    {
+      "sigla": "LC",
+      "nome": "Letra de Câmbio",
+      "tipo": "Investimento por Financeiras",
+      "risco": "Baixo a Médio",
+      "liquidez": "Apenas no Vencimento",
+      "garantia_FGC": true,
+      "perfis_compativeis": ["Moderado"],
+      "rentabilidade_simulada": "Geralmente entre 103% e 115% do CDI",
+      "comparativo_poupanca": "Emitido por financeiras menores, por isso paga taxas mais altas que os grandes bancos e supera muito a Poupança, mantendo a segurança do FGC."
+    },
+    {
+      "sigla": "Fundos DI / Renda Fixa",
+      "nome": "Fundos de Investimento em Renda Fixa",
+      "tipo": "Fundo de Investimento",
+      "risco": "Baixo",
+      "liquidez": "Diária (Resgate em D+0 ou D+1)",
+      "garantia_FGC": false,
+      "perfis_compativeis": ["Conservador", "Moderado"],
+      "rentabilidade_simulada": "Acompanha de 95% a 102% do CDI (Descontando a taxa de administração)",
+      "comparativo_poupanca": "Uma carteira de vários títulos gerenciada por um profissional. Não tem FGC, mas o risco é pulverizado e rende bem mais que a Poupança."
+    },
+    {
       "sigla": "Debêntures",
       "nome": "Títulos de Dívida Corporativa",
       "tipo": "Crédito Privado (Empresas)",
