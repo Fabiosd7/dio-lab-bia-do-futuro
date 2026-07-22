@@ -65,7 +65,7 @@
       "nome": "Título Público focado em Aposentadoria",
       "tipo": "Investimento Governamental",
       "risco": "Baixo (Foco em longuíssimo prazo)",
-      "liquidez": "弾No Vencimento (Paga parcelas mensais por 20 anos no futuro)",
+      "liquidez": "No Vencimento (Paga parcelas mensais por 20 anos no futuro)",
       "garantia_FGC": false,
       "perfis_compativeis": ["Conservador", "Moderado"],
       "rentabilidade_simulada": "IPCA (Inflação) + Taxa de Juros Real (Ex: IPCA + 6.20% ao ano)",
