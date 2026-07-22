@@ -63,40 +63,73 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
         with st.spinner("O Gui está analisando a base de conhecimento..."):
             
             dados_base = carregar_dados_financeiros()
-            termo = user_input.lower().strip()
+            frase_original = user_input.strip()
+            termo = frase_original.lower()
             bot_response = ""
             
-            # --- CORREÇÃO AQUI: Tratamento inteligente para saudações e interações básicas ---
-            if termo in ["oi", "ola", "olá", "tudo bem", "tudo bem?", "tudo bom", "bom dia", "boa tarde", "boa noite"]:
+            # --- INTELEGÊNCIA ADICIONADA: Descobre se a mensagem contém uma pergunta (?) ---
+            tem_interrogacao = "?" in termo
+            # Limpa o termo removendo a interrogação para facilitar as buscas por palavras-chave
+            termo_limpo = termo.replace("?", "").strip()
+            
+            # Conta quantas mensagens existem no chat para saber o estágio da conversa
+            primeira_interacao = len(st.session_state.messages) <= 3
+            
+            # Lógica para Saudações e Perguntas de Cortesia ("Tudo bem?")
+            if termo_limpo in ["oi", "ola", "olá", "bom dia", "boa tarde", "boa noite"]:
                 bot_response = (
-                    "Tudo ótimo por aqui! É um prazer conversar com você. 👍\n\n"
-                    "Estou super pronto para te guiar e tirar suas dúvidas sobre os conceitos de Renda Fixa "
-                    "(como CDB, LCI, LCA, Tesouro Direto e outros).\n\n"
-                    "Me conta: você quer entender mais sobre qual desses investimentos hoje?"
+                    "Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋\n\n"
+                    "Estou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.\n"
+                    "O que você gostaria de explorar ou entender melhor hoje?"
                 )
             
+            elif termo_limpo in ["tudo bem", "tudo bom"]:
+                if tem_interrogacao:
+                    # Se o usuário perguntou "Tudo bem?", o Gui responde e pergunta de volta de forma simpática
+                    bot_response = (
+                        "Tudo excelente comigo, obrigado por perguntar! E com você, tudo certinho? 😊\n\n"
+                        "Estou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. "
+                        "Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?"
+                    )
+                else:
+                    # Se o usuário apenas afirmou "tudo bem" como resposta ou concordância no fluxo
+                    bot_response = (
+                        "Maravilha! Vamos em frente. 🎯\n\n"
+                        "Como seu guia de educação financeira, posso te explicar os conceitos dos investimentos "
+                        "do nosso catálogo (CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).\n\n"
+                        "Para direcionarmos o papo, você prefere focar em **segurança absoluta**, "
+                        "conhecer opções **isentas de Imposto de Renda** ou títulos para o **longo prazo**?"
+                    )
+            
+            elif termo_limpo in ["sim", "entendi", "ok", "beleza", "com certeza"]:
+                bot_response = (
+                    "Excelente! Então vamos continuar focados no aprendizado.\n\n"
+                    "Para te guiar melhor, me conta: qual conceito de investimento você tem mais curiosidade "
+                    "em entender como funciona em comparação com a Poupança tradicional?"
+                )
+                
             # Mapeamento de intenções de busca do usuário por palavras-chave semânticas
-            elif "segurança" in termo or "seguro" in termo or "perder" in termo or "reserva" in termo:
+            elif "segurança" in termo_limpo or "seguro" in termo_limpo or "perder" in termo_limpo or "reserva" in termo_limpo:
                 bot_response = (
                     "Deixa eu te guiar de um jeito simples! Se o seu foco principal é **segurança absoluta** e proteção contra perdas, "
                     "educacionalmente as melhores opções da nossa base são o **Tesouro Selic** e os **CDBs com liquidez diária**.\n\n"
                     "O Tesouro Selic é garantido pelo Governo Federal (o que o torna o ativo mais seguro do país), enquanto o CDB possui a proteção do Fundo Garantidor de Crédito (FGC) para valores até R$ 250 mil. "
                     "Ambos rendem quase o dobro da Poupança tradicional mantendo seu dinheiro protegido."
                 )
-            elif "render mais" in termo or "melhor ganho" in termo or "lucro" in termo or "rentabilidade" in termo:
+            elif "render mais" in termo_limpo or "melhor ganho" in termo_limpo or "lucro" in termo_limpo or "rentabilidade" in termo_limpo:
                 bot_response = (
                     "Olha, se você busca uma **rentabilidade mais agressiva** dentro da Renda Fixa, o mercado te oferece opções teóricas como as **Debêntures** e os títulos de **CRI / CRA**.\n\n"
                     "Esses produtos costumam render acima de 115% do CDI ou IPCA + Taxas Altas porque financiam empresas privadas. "
                     "Mas atenção ao detalhe técnico: eles possuem maior risco e **não contam com a proteção do FGC**, sendo indicados para prazos mais longos."
                 )
-            elif "imposto" in termo or "ir" in termo or "isento" in termo:
+            elif "imposto" in termo_limpo or "ir" in termo_limpo or "isento" in termo_limpo:
                 bot_response = (
                     "Deixa o Gui te explicar um detalhe que faz muita diferença no bolso! Se você quer fugir do Imposto de Renda, "
                     "existem títulos criados para incentivar setores da economia que são **100% isentos de Imposto de Renda** para pessoa física.\n\n"
                     "São as **LCI / LCA** (emitidas por bancos e protegidas pelo FGC) e os **CRI / CRA** (crédito privado). "
                     "Como o governo não desconta nada do seu lucro na hora do resgate, o rendimento líquido final costuma ser muito vantajoso comparado a um CDB comum."
                 )
-            elif "inflação" in termo or "poder de compra" in termo or "ipca" in termo:
+            elif "inflação" in termo_limpo or "poder de compra" in termo_limpo or "ipca" in termo_limpo:
                 bot_response = (
                     "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceito ideal para você é o **Tesouro IPCA+**.\n\n"
                     "Esse título público rende uma taxa fixa mais a variação da inflação oficial (IPCA). Isso garante matematicamente "
@@ -107,7 +140,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 produto_encontrado = None
                 if "produtos_renda_fixa" in dados_base:
                     for prod in dados_base["produtos_renda_fixa"]:
-                        if prod["sigla"].lower() in termo or prod["nome"].lower() in termo:
+                        if prod["sigla"].lower() in termo_limpo or prod["nome"].lower() in termo_limpo:
                             produto_encontrado = prod
                             break
                 
@@ -120,19 +153,10 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                         f"💡 *Comparativo com a Poupança:* {produto_encontrado['comparativo_poupanca']}"
                     )
                 else:
-                    # Fallback consultivo padrão se a pergunta for muito genérica
-                    bot_response = (
-                        "Entendi perfeitamente sua dúvida! Como seu amigo inteligente de educação financeira, "
-                        "posso te explicar de forma simples todos os conceitos do mercado de Renda Fixa.\n\n"
-                        "Para eu te dar a explicação conceitual perfeita, me conta: você prioriza **segurança absoluta**, "
-                        "quer um investimento que seja **isento de Imposto de Renda** ou busca algo focado em **longo prazo**?"
-                    )
-            
-            # Adiciona a recusa educada obrigatória de compliance no final de todos os fluxos
-            final_response = f"{bot_response}\n\n*Nota do Gui: {DADOS_GUI['recusa_educada']}*"
-            
-            st.write(final_response)
-            st.session_state.messages.append({"role": "assistant", "content": final_response})
+                    # Fallback adaptado se o usuário fez uma pergunta geral com '?' que não mapeamos acima
+                    if tem_interrogacao:
+                        bot_response = (
+
 
 
 
