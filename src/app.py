@@ -1,9 +1,10 @@
 import streamlit as st
-import requests
+from openai import OpenAI
 
 st.title("Meu Assistente Virtual")
 st.write("Conectado com IA real via OpenRouter!")
 
+# Recupera a chave de API salva nos segredos do Streamlit
 api_key = st.secrets.get("OPENROUTER_API_KEY")
 
 if "messages" not in st.session_state:
@@ -23,37 +24,28 @@ if user_input := st.chat_input("Digite sua mensagem..."):
     else:
         with st.spinner("Pensando..."):
             try:
-                headers = {
-                    "Authorization": f"Bearer {api_key}",
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": "https://streamlit.io", 
-                    "X-Title": "Meu Assistente Streamlit"
-                }
-                
-                payload = {
-                    "model": "openrouter/free",
-                    "messages": [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
-                }
-                
-                response = requests.post(
-                    url="https://openrouter.ai",
-                    headers=headers,
-                    json=payload
+                # Inicializa o cliente apontando diretamente para o servidor do OpenRouter
+                client = OpenAI(
+                    base_url="https://openrouter.ai",
+                    api_key=api_key,
+                )
+
+                # Forçamos o modelo 'meta-llama/llama-3-8b-instruct:free' que é o mais estável deles
+                response = client.chat.completions.create(
+                    model="meta-llama/llama-3-8b-instruct:free",
+                    messages=[{"role": m["role"], "content": m["content"]} for m in st.session_state.messages],
+                    extra_headers={
+                        "HTTP-Referer": "https://streamlit.io",
+                        "X-Title": "Meu Assistente Streamlit",
+                    }
                 )
                 
-                if response.status_code == 200:
-                    data = response.json()
-                    if "choices" in data and len(data["choices"]) > 0:
-                        bot_response = data["choices"][0]["message"]["content"]
-                        with st.chat_message("assistant"):
-                            st.write(bot_response)
-                        st.session_state.messages.append({"role": "assistant", "content": bot_response})
-                    else:
-                        st.error(f"Resposta inesperada do servidor: {data}")
-                else:
-                    st.error(f"Erro na API (Status {response.status_code}): {response.text}")
+                bot_response = response.choices[0].message.content
+                with st.chat_message("assistant"):
+                    st.write(bot_response)
+                st.session_state.messages.append({"role": "assistant", "content": bot_response})
                     
             except Exception as e:
-                st.error(f"Falha técnica na comunicação: {str(e)}")
+                st.error(f"Falha na comunicação com a IA: {str(e)}")
 
 
