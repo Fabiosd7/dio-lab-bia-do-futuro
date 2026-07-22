@@ -72,16 +72,13 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
     with st.chat_message("assistant"):
         with st.spinner("O Gui está pensando na resposta..."):
             
-            # Se a API KEY não estiver configurada nos Secrets, exibe o aviso na tela
             if client is None:
                 bot_response = "Ops! A chave OPENROUTER_API_KEY não foi configurada corretamente nos Secrets do Streamlit."
                 st.write(bot_response)
                 st.session_state.messages.append({"role": "assistant", "content": bot_response})
             else:
-                # Carrega a base de dados em formato de texto para injetar no cérebro da IA
                 dados_base = carregar_dados_financeiros()
                 
-                # Engenharia de Prompt: Constrói as regras estritas para impedir alucinações
                 system_prompt = f"""
                 Você é o {DADOS_GUI['nome']}, o {DADOS_GUI['titulo']}.
                 Sua personalidade é ser {DADOS_GUI['personalidade']} e seu tom de voz deve ser obrigatoriamente {DADOS_GUI['tom_de_voz']}.
@@ -100,25 +97,34 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 {json.dumps(dados_base, ensure_ascii=False)}
                 """
                 
-                # Monta a estrutura da conversa formatando o histórico para a API do OpenRouter
                 contexto_api = [{"role": "system", "content": system_prompt}]
                 for msg in st.session_state.messages:
                     contexto_api.append({"role": msg["role"], "content": msg["content"]})
                 
                 try:
-                    # Faz a chamada oficial utilizando o modelo 100% GRATUITO da Meta no OpenRouter
+                    # Chamada ao modelo gratuito da Meta
                     completion = client.chat.completions.create(
                         model="meta-llama/llama-3.2-1b-instruct:free",
                         messages=contexto_api,
-                        temperature=0.3 # Mantém a IA focada nos dados reais e evita invenções
+                        temperature=0.3
                     )
-                    bot_response = completion.choices.message.content
+                    
+                    # Correção do erro: verifica o tipo de resposta retornado pelo OpenRouter
+                    if isinstance(completion, str):
+                        bot_response = completion
+                    elif hasattr(completion, 'choices') and len(completion.choices) > 0:
+                        bot_response = completion.choices[message].message.content
+                    else:
+                        # Fallback caso venha em outro formato de dicionário
+                        dados_resposta = dict(completion)
+                        bot_response = dados_resposta['choices'][0]['message']['content']
+                        
                 except Exception as e:
-                    bot_response = f"Desculpe, deu um erro ao chamar o OpenRouter: {str(e)}"
+                    bot_response = f"Desculpe, deu um erro ao processar a resposta da IA: {str(e)}"
                 
-                # Mostra a resposta gerada pela IA na tela e salva no histórico do Streamlit
                 st.write(bot_response)
                 st.session_state.messages.append({"role": "assistant", "content": bot_response})
+
 
 
 
