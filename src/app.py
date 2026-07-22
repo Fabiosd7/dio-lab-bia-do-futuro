@@ -82,14 +82,14 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 )
             elif "imposto" in termo or "ir" in termo or "isento" in termo:
                 bot_response = (
-                    "Deixa o Gui te explicar um detalhe que faz muita diferença no bolso! Se você quer fugir do Imposto de Reclamação, "
+                    "Deixa o Gui te explicar um detalhe que faz muita diferença no bolso! Se você quer fugir do Imposto de Renda, "
                     "existem títulos criados para incentivar setores da economia que são **100% isentos de Imposto de Renda** para pessoa física.\n\n"
                     "São as **LCI / LCA** (emitidas por bancos e protegidas pelo FGC) e os **CRI / CRA** (crédito privado). "
                     "Como o governo não desconta nada do seu lucro na hora do resgate, o rendimento líquido final costuma ser muito vantajoso comparado a um CDB comum."
                 )
             elif "inflação" in termo or "poder de compra" in termo or "ipca" in termo:
                 bot_response = (
-                    "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceito ideal para você é o **Tesouro IPCA+**.\n\n"
+                    "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceptio ideal para você é o **Tesouro IPCA+**.\n\n"
                     "Esse título público rende uma taxa fixa mais a variação da inflação oficial (IPCA). Isso garante matematicamente "
                     "que o seu dinheiro nunca vai perder o poder de compra ao longo dos anos, sendo uma excelente opção conceitual para planos de médio e longo prazo."
                 )
@@ -116,7 +116,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                         "Entendi perfeitamente sua dúvida! Como seu amigo inteligente de educação financeira, "
                         "posso te explicar de forma simples todos os conceitos do mercado de Renda Fixa.\n\n"
                         "Para eu te dar a explicação conceitual perfeita, me conta: você prioriza **segurança absoluta**, "
-                        "quer um investimento que seja **isento de Imposto de Renda** ou busca algo focado em **longo prazo**?"
+                        "quer um investmento que seja **isento de Imposto de Renda** ou busca algo focado em **longo prazo**?"
                     )
             
             # Adiciona a recusa educada obrigatória de compliance no final de todos os fluxos
