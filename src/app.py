@@ -154,5 +154,12 @@ Esses valores são apenas **simulações educativas**, para mostrar como a renda
 
                 bot_response = f"""Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
 
+Você pode me perguntar sobre qualquer um destes produtos:
+{opcoes_formatadas}
+
+Qual deles você gostaria de compreender melhor?"""
+
+            # Ex
+
 
 
