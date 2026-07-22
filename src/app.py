@@ -45,7 +45,6 @@ def carregar_dados_financeiros():
 # Função auxiliar para remover acentos e deixar o texto limpo para comparação
 def normalizar_texto(texto):
     texto = texto.lower().strip()
-    # Remove acentos (ex: ó -> o, á -> a, ç -> c)
     texto = ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
     return texto
 
@@ -80,72 +79,65 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             termo_limpo = normalizar_texto(frase_original.replace("?", ""))
             bot_response = ""
             
-            # --- DICIONÁRIO EXPANDIDO DE SITUAÇÕES E VARIADAS GÍRIAS BRASILEIRAS ---
-            dicionario_saudacoes = ["oi", "ola", "bom dia", "boa tarde", "boa noite", "eae", "opa", "salve", "fala", "coirmandade", "tudo bem", "tudo bom"]
+            # Palavras-chave isoladas para mapeamento flexível de gírias e saudações
+            gatilhos_tudo_bem = ["tudo bem", "tudo bom", "tudo joia", "tudo otimo", "tudo certo", "tudo beleza", "tudo suave", "tudo tranquilo", "tudo belezinha", "tudo sussa", "joia", "otimo", "suave", "tranquilo"]
+            gatilhos_saudacoes = ["oi", "ola", "bom dia", "boa tarde", "boa noite", "eae", "opa", "salve", "fala"]
+            gatilhos_concordancia = ["sim", "entendi", "ok", "beleza", "com certeza", "bora", "vamos", "pode ser", "fechou", "demoro"]
             
-            dicionario_tudo_joia = [
-                "tudo joia", "tudo otimo", "tudo 100", "tudo certo", "tudo bem por aqui", 
-                "tudo beleza", "tudo suave", "tudo tranquilo", "tudo belezinha", "tudo sussa",
-                "ta tudo bem", "ta tudo joia", "ta tudo certo", "por aqui tudo bem", "por aqui tudo certo",
-                "joia", "otimo", "beleza", "suave", "tranquilo", "100%", "perfeito"
-            ]
-            
-            dicionario_concordancia = ["sim", "entendi", "ok", "beleza", "com certeza", "bora", "vamos", "pode ser", "fechou", "demoro"]
-            
-            dicionario_seguranca = ["seguranca", "seguro", "perder", "reserva", "risco", "proteg", "medo", "garant"]
-            dicionario_rentabilidade = ["render mais", "melhor ganho", "lucro", "rentabilidade", "ganhar mais", "rende mais", "maior retorno"]
-            dicionario_imposto = ["imposto", "ir", "isento", "leao", "descont", "taxa"]
-            dicionario_inflacao = ["inflacao", "poder de compra", "ipca", "preço", "mercado", "caro"]
+            gatilhos_seguranca = ["seguranca", "seguro", "perder", "reserva", "risco", "proteg", "medo", "garant"]
+            gatilhos_rentabilidade = ["render mais", "melhor ganho", "lucro", "rentabilidade", "ganhar mais", "rente mais", "maior retorno", "render", "rendimento"]
+            gatilhos_imposto = ["imposto", "ir", "isento", "leao", "descont", "taxa"]
+            gatilhos_inflacao = ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]
 
-            # --- FLUXO DE TOMADA DE DECISÃO INTELIGENTE ---
+            # --- CORREÇÃO DA LÓGICA DE DECISÃO (FOCADA EM PALAVRAS CONTIDAS) ---
             
-            # 1. Se o usuário estiver perguntando se está tudo bem ("Tudo joia?", "Tudo bem?")
-            if any(exp in termo_limpo for exp in ["tudo bem", "tudo bom", "tudo joia", "tudo beleza", "tudo suave", "tudo tranquilo"]) and tem_interrogacao:
+            # 1. Se a frase tiver QUALQUER variação de "tudo bem" acompanhada de "?" (ex: "oi tudo joia?")
+            if any(gatilho in termo_limpo for gatilho in gatilhos_tudo_bem) and tem_interrogacao:
                 bot_response = """Tudo excelente comigo, parceiro! Obrigado por perguntar. E com você, tudo certinho? 😊
 
 Estou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?"""
             
-            # 2. Se o usuário estiver apenas respondendo que está tudo bem/tudo joia (Afirmação)
-            elif any(termo_limpo == exp or termo_limpo.startswith(exp) or exp in termo_limpo for exp in dicionario_tudo_joia):
+            # 2. Se for apenas uma afirmação de "tudo bem" / "tudo joia" sem pergunta
+            elif any(gatilho in termo_limpo for gatilho in gatilhos_tudo_bem) and not tem_interrogacao:
                 bot_response = """Maravilha! Fico feliz que esteja tudo joia por aí. Vamos direto ao ponto! 🎯
 
 Como seu guia de educação financeira, posso te explicar os conceitos do nosso catálogo (CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).
 
 Para direcionarmos o nosso papo, você prefere focar em segurança absoluta, conhecer opções isentas de Imposto de Renda ou títulos para o longo prazo?"""
             
-            # 3. Saudações genéricas (Oi, Olá, Eae)
-            elif any(saud in termo_limpo for saud in dicionario_saudacoes):
+            # 3. Se contiver apenas saudações simples (ex: "oi", "olá", "bom dia")
+            elif any(gatilho in termo_limpo for gatilho in gatilhos_saudacoes):
                 bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋
 
 Estou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.
 O que você gostaria de explorar ou entender melhor hoje?"""
             
-            # 4. Respostas de concordância simples (Sim, Fechou, Ok)
-            elif any(conc == termo_limpo for conc in dicionario_concordancia):
+            # 4. Respostas de concordância (sim, ok, fechou)
+            elif any(gatilho == termo_limpo for gatilho in gatilhos_concordancia):
                 bot_response = """Excelente! Então vamos continuar focados no aprendizado.
 
 Para te guiar melhor, me conta: qual conceito de investimento você tem mais curiosidade em entender como funciona em comparação com a Poupança tradicional?"""
                 
             # 5. Mapeamento de intenções financeiras (Segurança)
-            elif any(seg in termo_limpo for seg in dicionario_seguranca):
+            elif any(gatilho in termo_limpo for gatilho in gatilhos_seguranca):
                 bot_response = """Deixa eu te guiar de um jeito simples! Se o seu foco principal é **segurança absoluta** e proteção contra perdas, educacionalmente as melhores opções da nossa base são o **Tesouro Selic** e os **CDBs com liquidez diária**.
 
 O Tesouro Selic é garantido pelo Governo Federal (o que o torna o ativo mais seguro do país), enquanto o CDB possui a proteção do Fundo Garantidor de Crédito (FGC) para valores até R$ 250 mil. Ambos rendem quase o dobro da Poupança tradicional mantendo seu dinheiro protegido."""
             
             # 6. Mapeamento de intenções financeiras (Rentabilidade)
-            elif any(rent in termo_limpo for rent in dicionario_rentabilidade):
+            elif any(gatilho in termo_limpo for gatilho in gatilhos_rentabilidade):
                 bot_response = """Olha, se você busca uma **rentabilidade mais agressiva** dentro da Renda Fixa, o mercado te oferece opções teóricas como as **Debêntures** e os títulos de **CRI / CRA**.
 
 Esses produtos costumam render acima de 115% do CDI ou IPCA + Taxas Altas porque financiam empresas privadas. Mas atenção ao detalhe técnico: eles possuem maior risco e **não contam com a proteção do FGC**, sendo indicados para prazos mais longos."""
             
             # 7. Mapeamento de intenções financeiras (Impostos)
-            elif any(imp in termo_limpo for imp in dicionario_imposto):
+            elif any(gatilho in termo_limpo for gatilho in gatilhos_imposto):
                 bot_response = """Deixa o Gui te explicar um detalhe que faz muita diferença no bolso! Se você quer fugir do Imposto de Renda, existem títulos criados para incentivar setores da economia que são **100% isentos de Imposto de Renda** para pessoa física.
 
-São as **LCI / LCA** (emitidas por bancos e protegidas pelo FGC) e os **CRI / CRA** (crédito privado). Como o governo não desconta nada do seu lucro na hora do resgate, o rendimento líquido final costuma ser muito avantajoso comparado a um CDB comum."""
+São as **LCI / LCA** (emitidas por bancos e protegidas pelo FGC) e os **CRI / CRA** (crédito privado). Como o governo não desconta nada do seu lucro na hora do resgate, o rendimento líquido final costuma ser muito vantajoso comparado a um CDB comum."""
             
             # 8. Mapeamento de intenções financeiras (Inflação)
-            elif any(inf in termo_limpo for inf in dicionario_inflacao):
+            elif any(gatilho in termo_limpo for gatilho in gatilhos_inflacao):
                 bot_response = """Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceito ideal para você é o **Tesouro IPCA+**.
 
 Esse título público rende uma taxa fixa mais a variação da inflação oficial (IPCA). Isso garante matematicamente que o seu dinheiro nunca vai perder o poder de compra ao longo dos anos, sendo uma excelente opção conceitual para planos de médio e longo prazo."""
@@ -155,10 +147,16 @@ Esse título público rende uma taxa fixa mais a variação da inflação oficia
                 produto_encontrado = None
                 if "produtos_renda_fixa" in dados_base:
                     for prod in dados_base["produtos_renda_fixa"]:
-                        # Normaliza também a sigla e o nome do produto para evitar erros de acentuação
                         sigla_norm = normalizar_texto(prod["sigla"])
                         nome_norm = normalizar_texto(prod["nome"])
+                        if sigla_norm in termo_limpo or nome_norm in termo_limpo:
+                            produto_encontrado = prod
+                            break
+                
+                if produto_encontrado:
+                    bot_response = f"""Perfeito! Deixa eu te guiar de um jeito simples sobre o **{produto_encontrado['sigla']}** ({produto_encontrado['nome']}).
 
+📊 *Rentabilidade simulada:* {produto_encontrado['rentabilidade_simulada']}.
 
 
 
