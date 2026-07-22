@@ -72,14 +72,11 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             dados_base = carregar_dados_financeiros()
             frase_original = user_input.strip()
             
-            # Identifica se o usuário usou ponto de interrogação antes de limpar a frase
             tem_interrogacao = "?" in frase_original
-            
-            # Limpa e normaliza o texto (remove ?, acentos e deixa tudo minúsculo)
             termo_limpo = normalizar_texto(frase_original.replace("?", ""))
             bot_response = ""
             
-            # Palavras-chave isoladas para mapeamento flexível de gírias e saudações
+            # Listas de palavras-chave para mapeamento de gírias e intenções
             gatilhos_tudo_bem = ["tudo bem", "tudo bom", "tudo joia", "tudo otimo", "tudo certo", "tudo beleza", "tudo suave", "tudo tranquilo", "tudo belezinha", "tudo sussa", "joia", "otimo", "suave", "tranquilo"]
             gatilhos_saudacoes = ["oi", "ola", "bom dia", "boa tarde", "boa noite", "eae", "opa", "salve", "fala"]
             gatilhos_concordancia = ["sim", "entendi", "ok", "beleza", "com certeza", "bora", "vamos", "pode ser", "fechou", "demoro"]
@@ -89,7 +86,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             gatilhos_imposto = ["imposto", "ir", "isento", "leao", "descont", "taxa"]
             gatilhos_inflacao = ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]
 
-            # --- PROCESSAMENTO LOGÍSTICO DAS RESPOSTAS RIGIDAMENTE INDENTADO ---
+            # --- PROCESSAMENTO LOGÍSTICO DAS RESPOSTAS ---
             
             if any(gatilho in termo_limpo for gatilho in gatilhos_tudo_bem) and tem_interrogacao:
                 bot_response = "Tudo excelente comigo, parceiro! Obrigado por perguntar. E com você, tudo certinho? 😊\n\nEstou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?"
@@ -107,7 +104,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 bot_response = "Deixa eu te guiar de um jeito simples! Se o seu foco principal é **segurança absoluta** e proteção contra perdas, educacionalmente as melhores opções da nossa base são o **Tesouro Selic** e os **CDBs com liquidez diária**.\n\nTítulo Público Federal é garantido pelo Governo Federal (o que o torna o ativo mais seguro do país), enquanto o CDB possui a proteção do Fundo Garantidor de Crédito (FGC) para valores até R$ 250 mil. Ambos rendem quase o dobro da Poupança tradicional mantendo seu dinheiro protegido."
             
             elif any(gatilho in termo_limpo for gatilho in gatilhos_rentabilidade):
-                bot_response = "Olha, se você busca uma **rentabilidade mais aggressive** dentro da Renda Fixa, o mercado te oferece opções teóricas como as **Debêntures** e os títulos de **CRI / CRA**.\n\nEsses produtos costumam render acima de 115% do CDI ou IPCA + Taxas Altas porque financiam empresas privadas. Mas atenção ao detalhe técnico: eles possuem maior risco e **não contam com a proteção do FGC**, sendo indicados para prazos mais longos."
+                bot_response = "Olha, se você busca uma **rentabilidade mais agressiva** dentro da Renda Fixa, o mercado te oferece opções teóricas como as **Debêntures** e os títulos de **CRI / CRA**.\n\nEsses produtos costumam render acima de 115% do CDI ou IPCA + Taxas Altas porque financiam empresas privadas. Mas atenção ao detalhe técnico: eles possuem maior risco e **não contam com a proteção do FGC**, sendo indicados para prazos mais longos."
             
             elif any(gatilho in termo_limpo for gatilho in gatilhos_imposto):
                 bot_response = "Deixa o Gui te explicar um detalhe que faz muita diferença no bolso! Se você quer fugir do Imposto de Renda, existem títulos criados para incentivar setores da economia que são **100% isentos de Imposto de Renda** para pessoa física.\n\nSão as **LCI / LCA** (emitidas por bancos e protegidas pelo FGC) e os **CRI / CRA** (crédito privado). Como o governo não desconta nada do seu lucro na hora do resgate, o rendimento líquido final costuma ser muito avantajoso comparado a um CDB comum."
@@ -126,10 +123,10 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                             break
                 
                 if produto_encontrado:
-                    # Correção da indentação do bloco interno do else
-                    bot_response = "Perfeito! Deixa eu te guiar de um jeito simples sobre o **" + produto_encontrado['sigla'] + "** (" + produto_encontrado['nome'] + ").\n\n📊 *Rentabilidade simulada:* " + produto_encontrado['rentabilidade_simulada'] + ".\n🛡️ *Perfil e Risco:* Indicado para perfis " + ", ".join(produto_encontrado['perfis_compativeis']) + " com risco " + produto_encontrado['risco'] + ".\n⏱️ *Liquidez:* " + produto_encontrado['liquidez'] + ".\n\n💡 *Comparativo com a Poupança:* " + produto_encontrado['comparativo_poupanca']
+                    bot_response = f"Perfeito! Deixa eu te guiar de um jeito simples sobre o **{produto_encontrado['sigla']}** ({produto_encontrado['nome']}).\n\n📊 *Rentabilidade simulada:* {produto_encontrado['rentabilidade_simulada']}.\n🛡️ *Perfil e Risco:* Indicado para perfis {', '.join(produto_encontrado['perfis_compativeis'])} com risco {produto_encontrado['risco']}.\n⏱️ *Liquidez:* {produto_encontrado['liquidez']}.\n\n💡 *Comparativo com a Poupança:* {produto_encontrado['comparativo_poupanca']}"
+                elif tem_interrogacao:
+                    bot_response = "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa de forma prática.\n\nNão localizei esse termo específico no meu catálogo, mas posso te explicar as regras de CDB, Tesouro Selic, LCI/LCA ou Debêntures. Qual desses você tem interesse em compreender?"
                 else:
-                    if tem_interrogacao:
 
 
 
