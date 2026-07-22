@@ -76,7 +76,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             termo_limpo = normalizar_texto(frase_original.replace("?", ""))
             bot_response = ""
             
-            # --- MAPA DE RESPOSTAS EM ESTRUTURA LINEAR (PREVINE ERROS DE ESPAÇO) ---
+            # --- MAPA DE RESPOSTAS EM ESTRUTURA LINEAR ---
             respostas_tudo_bem = {
                 True: "Tudo excelente comigo, parceiro! Obrigado por perguntar. E com você, tudo certinho? 😊\n\nEstou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?",
                 False: "Maravilha! Fico feliz que esteja tudo joia por aí. Vamos direto ao ponto! 🎯\n\nComo seu guia de educação financeira, posso te explicar os conceitos do nosso catálogo (CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).\n\nPara direcionarmos o nosso papo, você prefere focar em segurança absoluta, conhecer opções isentas de Imposto de Renda ou títulos para o longo prazo?"
@@ -124,8 +124,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                             bot_response = "Perfeito! Deixa eu te guiar de um jeito simples sobre o **" + prod['sigla'] + "** (" + prod['nome'] + ").\n\n📊 *Rentabilidade simulada:* " + prod['rentabilidade_simulada'] + ".\n🛡️ *Perfil e Risco:* Indicado para perfis " + ", ".join(prod['perfis_compativeis']) + " com risco " + prod['risco'] + ".\n⏱️ *Liquidez:* " + prod['liquidez'] + ".\n\n💡 *Comparativo com a Poupança:* " + prod['comparativo_poupanca']
                             break
             
-            # 9. Respostas de Fallback caso o texto digitado não entre em nenhuma regra anterior
+            # --- SEÇÃO FALLBACKS FINAIS (CORRIGIDO SEM NENHUM OUTRO BLOCO IF INDENTADO) ---
             if bot_response == "":
-                if tem_interrogacao:
-                    bot_response = "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa de forma prática.\n\nNão localizei esse termo específico no meu catálogo, mas posso te explicar as regras de CDB, Tesouro Selic, LCI/LCA ou Debêntures. Qual desses você tem interesse em compreender?"
-                if not tem_interrogacao:
+                fallback_pergunta = "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa de forma prática.\n\nNão localizei esse termo específico no meu catálogo, mas posso te explicar as regras de CDB, Tesouro Selic, LCI/LCA ou Debêntures. Qual desses você tem interesse em compreender?"
+
