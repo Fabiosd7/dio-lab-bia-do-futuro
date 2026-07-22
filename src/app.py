@@ -86,7 +86,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             gatilhos_imposto = ["imposto", "ir", "isento", "leao", "descont", "taxa"]
             gatilhos_inflacao = ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]
 
-            # --- PROCESSAMENTO LOGÍSTICO DAS RESPOSTAS ---
+            # --- PROCESSAMENTO LOGÍSTICO DAS RESPOSTAS FLUIDO E INDEPENDENTE ---
             
             if any(gatilho in termo_limpo for gatilho in gatilhos_tudo_bem) and tem_interrogacao:
                 bot_response = "Tudo excelente comigo, parceiro! Obrigado por perguntar. E com você, tudo certinho? 😊\n\nEstou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?"
@@ -112,8 +112,8 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             elif any(gatilho in termo_limpo for gatilho in gatilhos_inflacao):
                 bot_response = "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceito ideal para você é o **Tesouro IPCA+**.\n\nEsse título público rende uma taxa fixa mais a variação da inflação oficial (IPCA). Isso garante matematicamente que o seu dinheiro nunca vai perder o poder de compra ao longo dos anos, sendo uma excelente opção conceitual para planos de médio e longo prazo."
             
-            # --- SEÇÃO PRODUTOS DO JSON (MANTIDA INTEGRALMENTE) ---
-            if bot_response == "":
+            # Se não caiu em nenhuma regra de intenção de texto acima, faz a busca no catálogo JSON
+            else:
                 produto_encontrado = None
                 if "produtos_renda_fixa" in dados_base:
                     for prod in dados_base["produtos_renda_fixa"]:
@@ -125,7 +125,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 
                 if produto_encontrado:
                     bot_response = f"Perfeito! Deixa eu te guiar de um jeito simples sobre o **{produto_encontrado['sigla']}** ({produto_encontrado['nome']}).\n\n📊 *Rentabilidade simulada:* {produto_encontrado['rentabilidade_simulada']}.\n🛡️ *Perfil e Risco:* Indicado para perfis {', '.join(produto_encontrado['perfis_compativeis'])} com risco {produto_encontrado['risco']}.\n⏱️ *Liquidez:* {produto_encontrado['liquidez']}.\n\n💡 *Comparativo com a Poupança:* {produto_encontrado['comparativo_poupanca']}"
-                
-            # --- SEÇÃO FALLBACKS FINAIS (BLINDAGEM CONTRA BALÃO EM BRANCO) ---
-            if bot_response == "":
-                fallback_pergunta = "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa de forma prática.\n\nNão localizei esse termo específico no meu catálogo, mas posso te explicar as regras de CDB, Tesouro Selic, LCI/LCA ou Debêntures. Qual desses você tem interesse em compreender?"
+                elif tem_interrogacao:
+                    bot_response = "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa de forma prática.\n\nNão localizei esse termo específico no meu catálogo, mas posso te explicar as regras de CDB, Tesouro Selic, LCI/LCA ou Debêntures. Qual desses você tem interesse em compreender?"
+                else:
+
