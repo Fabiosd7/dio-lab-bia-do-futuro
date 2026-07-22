@@ -3,10 +3,10 @@ import json
 import os
 import unicodedata
 
-# Configuração da página Streamlit (DEVE ser o primeiro comando Python do arquivo)
+# Configuração da página Streamlit
 st.set_page_config(page_title="Gui - Guia Financeiro", page_icon="🤖", layout="centered")
 
-# Parâmetros fixos de identidade e compliance do Gui
+# Parâmetros fixos de identidade e compliance
 DADOS_GUI = {
     "nome": "Gui",
     "titulo": "Guia Financeiro e Educador",
@@ -21,11 +21,11 @@ DADOS_GUI = {
     ]
 }
 
-# Título e cabeçalho da interface
+# Título e cabeçalho
 st.title(f"🤖 {DADOS_GUI['nome']} - {DADOS_GUI['titulo']}")
 st.write("Interface ativa com Motor de Respostas Consultivas Local integrado!")
 
-# Barra lateral com regras de compliance
+# Barra lateral
 with st.sidebar:
     st.header("⚠️ Limitações Declaradas")
     for limitacao in DADOS_GUI["limitacoes"]:
@@ -57,14 +57,12 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.write(message["content"])
 
-# Caixa de entrada do usuário
+# Caixa de entrada
 if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
-    # Mostra pergunta do usuário
     with st.chat_message("user"):
         st.write(user_input)
     st.session_state.messages.append({"role": "user", "content": user_input})
 
-    # Motor de respostas
     with st.chat_message("assistant"):
         with st.spinner("O Gui está analisando a base de conhecimento..."):
             dados_base = carregar_dados_financeiros()
@@ -91,13 +89,13 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             elif any(g == termo_limpo for g in gatilhos_concordancia):
                 bot_response = "Excelente! Então vamos continuar focados no aprendizado.\n\nPara te guiar melhor, me conta: qual conceito de investimento você tem mais curiosidade em entender como funciona em comparação com a Poupança tradicional?"
             elif any(g in termo_limpo for g in ["seguranca", "seguro", "perder", "reserva", "risco", "proteg", "medo", "garant"]):
-                bot_response = "Deixa eu te guiar de um jeito simples! Se o seu foco principal é **segurança absoluta** e proteção contra perdas, educacionalmente as melhores opções da nossa base são o **Tesouro Selic** e os **CDBs com liquidez diária**.\n\nTítulo Público Federal é garantido pelo Governo Federal, enquanto o CDB possui a proteção do Fundo Garantidor de Crédito (FGC)."
+                bot_response = "Se o seu foco principal é **segurança absoluta**, educacionalmente as melhores opções são o **Tesouro Selic** e os **CDBs com liquidez diária**."
             elif any(g in termo_limpo for g in ["render mais", "melhor ganho", "lucro", "rentabilidade", "ganhar mais", "rente mais", "maior retorno", "render", "rendimento"]):
-                bot_response = "Se você busca uma **rentabilidade mais agressiva** dentro da Renda Fixa, opções como **Debêntures** e **CRI/CRA** podem aparecer. Mas atenção: não contam com a proteção do FGC e envolvem maior risco."
+                bot_response = "Se você busca **rentabilidade mais agressiva**, opções como **Debêntures** e **CRI/CRA** podem aparecer. Mas atenção: não contam com a proteção do FGC e envolvem maior risco."
             elif any(g in termo_limpo for g in ["imposto", "ir", "isento", "leao", "descont", "taxa"]):
-                bot_response = "Existem títulos **isentos de Imposto de Renda** para pessoa física, como **LCI/LCA** e alguns **CRI/CRA**. Isso aumenta o rendimento líquido comparado a CDBs comuns."
+                bot_response = "Existem títulos **isentos de Imposto de Renda** para pessoa física, como **LCI/LCA** e alguns **CRI/CRA**."
             elif any(g in termo_limpo for g in ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]):
-                bot_response = "Para proteger contra a inflação, o conceito ideal é o **Tesouro IPCA+**, que garante que seu dinheiro mantenha poder de compra ao longo dos anos."
+                bot_response = "Para proteger contra a inflação, o conceito ideal é o **Tesouro IPCA+**."
 
             # Busca no JSON
             if bot_response == "":
@@ -120,9 +118,5 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 bot_response = (
                     "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.\n\n"
                     "Não localizei esse termo específico no meu catálogo, mas posso te explicar CDB, Tesouro Selic, LCI/LCA ou Debêntures. "
-                    "Qual desses você gostaria de compreender melhor?"
-                )
-
-            # Exibe e salva resposta
-            st.write(bot_response)
-            st.session_state.messages.append({"role": "assistant", "content":
+                    "Qual desses você
+                
