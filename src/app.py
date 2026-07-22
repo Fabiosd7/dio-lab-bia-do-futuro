@@ -1,10 +1,9 @@
 import streamlit as st
-from openai import OpenAI
+import requests
 
 st.title("Meu Assistente Virtual")
 st.write("Conectado com IA real via OpenRouter!")
 
-# Recupera a chave de API salva nos segredos do Streamlit
 api_key = st.secrets.get("OPENROUTER_API_KEY")
 
 if "messages" not in st.session_state:
@@ -24,29 +23,33 @@ if user_input := st.chat_input("Digite sua mensagem..."):
     else:
         with st.spinner("Pensando..."):
             try:
-                # Inicializa o cliente apontando para o OpenRouter
-                client = OpenAI(
-                    base_url="https://openrouter.ai",
-                    api_key=api_key,
-                )
-
-                # Chamada correta do modelo
-                response = client.chat.completions.create(
-                    model="meta-llama/llama-3-8b-instruct:free",
-                    messages=[{"role": m["role"], "content": m["content"]} for m in st.session_state.messages],
-                    extra_headers={
-                        "HTTP-Referer": "https://streamlit.io",
-                        "X-Title": "Meu Assistente Streamlit",
-                    }
-                )
+                headers = {
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json"
+                }
                 
-                # CORREÇÃO DA LINHA: Lendo a resposta no formato correto da biblioteca
-                bot_response = response.choices[0].message.content
+                payload = {
+                    "model": "meta-llama/llama-3-8b-instruct:free",
+                    "messages": [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
+                }
                 
-                with st.chat_message("assistant"):
-                    st.write(bot_response)
-                st.session_state.messages.append({"role": "assistant", "content": bot_response})
+                # Fazendo a requisição direta via HTTP POST
+                url = "https://openrouter.ai"
+                response = requests.post(url, headers=headers, json=payload)
+                
+                if response.status_code == 200:
+                    dados = response.json()
+                    # Acessa os dados no formato de dicionário padrão do Python
+                    bot_response = dados["choices"][0]["message"]["content"]
+                    
+                    with st.chat_message("assistant"):
+                        st.write(bot_response)
+                    st.session_state.messages.append({"role": "assistant", "content": bot_response})
+                else:
+                    st.error(f"Erro na API ({response.status_code}): {response.text}")
                     
             except Exception as e:
-                st.error(f"Falha na comunicação com a IA: {str(e)}")
+                st.error(f"Erro ao processar resposta: {str(e)}")
+
+
 
