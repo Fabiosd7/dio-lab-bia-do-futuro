@@ -63,11 +63,20 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
         with st.spinner("O Gui está analisando a base de conhecimento..."):
             
             dados_base = carregar_dados_financeiros()
-            termo = user_input.lower()
+            termo = user_input.lower().strip()
             bot_response = ""
             
+            # --- CORREÇÃO AQUI: Tratamento inteligente para saudações e interações básicas ---
+            if termo in ["oi", "ola", "olá", "tudo bem", "tudo bem?", "tudo bom", "bom dia", "boa tarde", "boa noite"]:
+                bot_response = (
+                    "Tudo ótimo por aqui! É um prazer conversar com você. 👍\n\n"
+                    "Estou super pronto para te guiar e tirar suas dúvidas sobre os conceitos de Renda Fixa "
+                    "(como CDB, LCI, LCA, Tesouro Direto e outros).\n\n"
+                    "Me conta: você quer entender mais sobre qual desses investimentos hoje?"
+                )
+            
             # Mapeamento de intenções de busca do usuário por palavras-chave semânticas
-            if "segurança" in termo or "seguro" in termo or "perder" in termo or "reserva" in termo:
+            elif "segurança" in termo or "seguro" in termo or "perder" in termo or "reserva" in termo:
                 bot_response = (
                     "Deixa eu te guiar de um jeito simples! Se o seu foco principal é **segurança absoluta** e proteção contra perdas, "
                     "educacionalmente as melhores opções da nossa base são o **Tesouro Selic** e os **CDBs com liquidez diária**.\n\n"
@@ -89,7 +98,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 )
             elif "inflação" in termo or "poder de compra" in termo or "ipca" in termo:
                 bot_response = (
-                    "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceptio ideal para você é o **Tesouro IPCA+**.\n\n"
+                    "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceito ideal para você é o **Tesouro IPCA+**.\n\n"
                     "Esse título público rende uma taxa fixa mais a variação da inflação oficial (IPCA). Isso garante matematicamente "
                     "que o seu dinheiro nunca vai perder o poder de compra ao longo dos anos, sendo uma excelente opção conceitual para planos de médio e longo prazo."
                 )
@@ -116,7 +125,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                         "Entendi perfeitamente sua dúvida! Como seu amigo inteligente de educação financeira, "
                         "posso te explicar de forma simples todos os conceitos do mercado de Renda Fixa.\n\n"
                         "Para eu te dar a explicação conceitual perfeita, me conta: você prioriza **segurança absoluta**, "
-                        "quer um investmento que seja **isento de Imposto de Renda** ou busca algo focado em **longo prazo**?"
+                        "quer um investimento que seja **isento de Imposto de Renda** ou busca algo focado em **longo prazo**?"
                     )
             
             # Adiciona a recusa educada obrigatória de compliance no final de todos os fluxos
