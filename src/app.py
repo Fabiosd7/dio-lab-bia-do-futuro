@@ -4,7 +4,6 @@ import requests
 st.title("Meu Assistente Virtual")
 st.write("Conectado com IA real via OpenRouter!")
 
-# Recupera a chave de API salva nos segredos do Streamlit
 api_key = st.secrets.get("OPENROUTER_API_KEY")
 
 if "messages" not in st.session_state:
@@ -31,24 +30,26 @@ if user_input := st.chat_input("Digite sua mensagem..."):
                     "X-Title": "Meu Assistente Streamlit"
                 }
                 
-                # Usando o endpoint genérico 'openrouter/free' para evitar erros de 404
                 payload = {
                     "model": "openrouter/free",
                     "messages": [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
                 }
                 
                 response = requests.post(
-                    url="https://openrouter.ai/api/v1/chat/completions",
+                    url="https://openrouter.ai",
                     headers=headers,
                     json=payload
                 )
                 
                 if response.status_code == 200:
                     data = response.json()
-                    bot_response = data["choices"]["message"]["content"]
-                    with st.chat_message("assistant"):
-                        st.write(bot_response)
-                    st.session_state.messages.append({"role": "assistant", "content": bot_response})
+                    if "choices" in data and len(data["choices"]) > 0:
+                        bot_response = data["choices"][0]["message"]["content"]
+                        with st.chat_message("assistant"):
+                            st.write(bot_response)
+                        st.session_state.messages.append({"role": "assistant", "content": bot_response})
+                    else:
+                        st.error(f"Resposta inesperada do servidor: {data}")
                 else:
                     st.error(f"Erro na API (Status {response.status_code}): {response.text}")
                     
