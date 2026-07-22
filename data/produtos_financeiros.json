@@ -1,25 +1,4 @@
-import streamlit as st
-import json
-import os
-
-# 1. BANCO DE DADOS INTEGRADO (JSON do Gui)
-DATA_CONHECIMENTO = {
-  "agente": {
-    "nome": "Gui",
-    "titulo": "Guia Financeiro e Educador",
-    "personalidade": "Consultivo, direto, educador e paciente",
-    "tom_de_voz": "Informal, acessível, leve e profundamente didático",
-    "exemplos_linguagem": {
-      "saudacao": "Olá! Tudo Bem?! Sou o Gui, seu educador financeiro. Como posso te ajudar a organizar seu dinheiro hoje?",
-      "contextualizacao": "Deixa eu te guiar de um jeito simples, usando uma analogia...",
-      "recusa_educada": "Não posso recomendar onde investir, mas o Gui te explica como cada tipo funciona!"
-    },
-    "limitacoes_declaradas": [
-      "NÃO realiza análise ou recomendação de investimentos.",
-      "NÃO interage com dados sensíveis (LGPD).",
-      "NÃO substitui consultoria certificada por profissionais."
-    ]
-  },
+{
   "taxas_mercado_simuladas": {
     "CDI_ANUAL": "12.00%",
     "SELIC_ANUAL": "12.15%",
@@ -32,7 +11,7 @@ DATA_CONHECIMENTO = {
       "tipo": "Investimento Bancário",
       "risco": "Baixo",
       "liquidez": "Diária ou No Vencimento",
-      "garantia_FGC": True,
+      "garantia_FGC": true,
       "perfis_compativeis": ["Conservador", "Moderado"],
       "rentabilidade_simulada": "100% do CDI (Rende aprox. 12% ao ano)",
       "comparativo_poupanca": "Rende quase o dobro da Poupança com a mesma segurança (Garantido pelo FGC)."
@@ -43,7 +22,7 @@ DATA_CONHECIMENTO = {
       "tipo": "Investimento Bancário",
       "risco": "Baixo",
       "liquidez": "Apenas no Vencimento (Mínimo 90 dias)",
-      "garantia_FGC": True,
+      "garantia_FGC": true,
       "perfis_compativeis": ["Conservador", "Moderado"],
       "rentabilidade_simulada": "90% do CDI (Equivale a um CDB de ~110% por ser Isento de Imposto de Renda)",
       "comparativo_poupanca": "Como não desconta imposto de renda, o ganho líquido final entrega muito mais dinheiro que a Poupança."
@@ -54,7 +33,7 @@ DATA_CONHECIMENTO = {
       "tipo": "Investimento Governamental",
       "risco": "Muito Baixo",
       "liquidez": "Diária",
-      "garantia_FGC": False,
+      "garantia_FGC": false,
       "perfis_compativeis": ["Conservador"],
       "rentabilidade_simulada": "Acompanha 100% a Taxa Selic (12.15% ao ano)",
       "comparativo_poupanca": "É o investimento mais seguro do país porque o garantidor é o Governo Federal. Ideal para reserva de emergência."
@@ -65,7 +44,7 @@ DATA_CONHECIMENTO = {
       "tipo": "Investimento Governamental",
       "risco": "Baixo (Se mantido até o vencimento)",
       "liquidez": "Longo Prazo (Possui marcação a mercado se resgatar antes)",
-      "garantia_FGC": False,
+      "garantia_FGC": false,
       "perfis_compativeis": ["Moderado", "Arrojado"],
       "rentabilidade_simulada": "IPCA (Inflação) + Taxa Fixa (Ex: IPCA + 6.00% ao ano)",
       "comparativo_poupanca": "Garante que o seu dinheiro nunca vai perder o poder de compra real. A Poupança corre o risco de render menos que a inflação."
@@ -76,7 +55,7 @@ DATA_CONHECIMENTO = {
       "tipo": "Investimento Governamental",
       "risco": "Baixo a Médio (Depende da oscilação dos juros)",
       "liquidez": "Médio a Longo Prazo (Possui marcação a mercado)",
-      "garantia_FGC": False,
+      "garantia_FGC": false,
       "perfis_compativeis": ["Moderado", "Arrojado"],
       "rentabilidade_simulada": "Taxa Fixa Definida (Ex: 11.50% ao ano garantido se levado até o fim)",
       "comparativo_poupanca": "Você sabe exatamente o valor final no dia da compra. Se os juros da economia caírem, ele continua rendendo muito."
@@ -87,7 +66,7 @@ DATA_CONHECIMENTO = {
       "tipo": "Crédito Privado (Empresas)",
       "risco": "Médio a Alto",
       "liquidez": "Longo Prazo / Apenas no Vencimento",
-      "garantia_FGC": False,
+      "garantia_FGC": false,
       "perfis_compativeis": ["Arrojado"],
       "rentabilidade_simulada": "Geralmente acima de 115% do CDI ou IPCA + Taxa Alta (Ex: IPCA + 7.5%)",
       "comparativo_poupanca": "Rende agressivamente mais que a Poupança, mas possui risco de crédito da empresa emissora e não conta com o FGC."
@@ -98,7 +77,7 @@ DATA_CONHECIMENTO = {
       "tipo": "Crédito Privado (Setoriais)",
       "risco": "Médio",
       "liquidez": "Médio a Longo Prazo",
-      "garantia_FGC": False,
+      "garantia_FGC": false,
       "perfis_compativeis": ["Moderado", "Arrojado"],
       "rentabilidade_simulada": "Taxas atrativas (Ex: IPCA + 6.5% ou 102% do CDI) + Isenção total de IR",
       "comparativo_poupanca": "O retorno é limpo e bate a Poupança com facilidade, mas exige que o investidor aceite prazos mais longos sem FGC."
@@ -117,69 +96,3 @@ DATA_CONHECIMENTO = {
   ]
 }
 
-# 2. CONFIGURAÇÃO DA INTERFACE STREAMLIT
-st.set_page_config(page_title="Gui - Guia Financeiro", page_icon="🤖", layout="centered")
-
-st.title("🤖 Gui - Seu Guia Financeiro")
-st.caption("Assistente Consultivo de Renda Fixa e Educação Financeira")
-
-# Exibição fixa das limitações na barra lateral (Compliance visível)
-with st.sidebar:
-    st.header("⚠️ Limitações Declaradas")
-    for limitacao in DATA_CONHECIMENTO["agente"]["limitacoes_declaradas"]:
-        st.markdown(f"- {limitacao}")
-    st.divider()
-    st.info("Hospedado publicamente via Streamlit Community Cloud.")
-
-# 3. INICIALIZAÇÃO DO ESTADO DA CONVERSA
-if "messages" not in st.session_state:
-    # Primeira mensagem do Gui usando a saudação exata parametrizada
-    st.session_state.messages = [
-        {"role": "assistant", "content": DATA_CONHECIMENTO["agente"]["exemplos_linguagem"]["saudacao"]}
-    ]
-
-# Renderizar mensagens anteriores do histórico
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.write(message["content"])
-
-# 4. ENTRADA DE TEXTO DO USUÁRIO
-if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
-    
-    # Adiciona a pergunta do usuário na tela
-    st.session_state.messages.append({"role": "user", "content": user_input})
-    with st.chat_message("user"):
-        st.write(user_input)
-
-    # 5. MOTOR DE REGRAS ANTI-ALUCINAÇÃO (RAG + Prompt Injetado)
-    with st.chat_message("assistant"):
-        with st.spinner("O Gui está analisando..."):
-            
-            # Aqui você conectará a chamada da sua API LLM (ex: OpenAI, Gemini, etc.)
-            # Exemplo de montagem do SYSTEM PROMPT injetando o JSON:
-            system_prompt = f"""
-            Você é o {DATA_CONHECIMENTO['agente']['nome']}. {DATA_CONHECIMENTO['agente']['personalidade']}.
-            Seu tom é {DATA_CONHECIMENTO['agente']['tom_de_voz']}.
-            Regras estritas:
-            1. {DATA_CONHECIMENTO['agente']['limitacoes_declaradas'][0]}
-            2. {DATA_CONHECIMENTO['agente']['limitacoes_declaradas'][1]}
-            3. {DATA_CONHECIMENTO['agente']['limitacoes_declaradas'][2]}
-            
-            Use APENAS os dados abaixo para responder o usuário:
-            {json.dumps(DATA_CONHECIMENTO['produtos_renda_fixa'], ensure_ascii=False)}
-            """
-            
-            # --- ESPAÇO PARA CHAMADA DA LLM ---
-            # resposta_ia = chamar_sua_llm(system_prompt, st.session_state.messages)
-            # ----------------------------------
-            
-            # Resposta simulada de exemplo caso a IA leia o contexto do Tesouro Selic:
-            resposta_ia = (
-                f"{DATA_CONHECIMENTO['agente']['exemplos_linguagem']['contextualizacao']} "
-                "Para objetivos de curto prazo, o mercado financeiro traz opções seguras baseadas em títulos do governo. "
-                "O **Tesouro Selic**, por exemplo, rende atualmente 12.15% ao ano. "
-                f"Lembrando que: {DATA_CONHECIMENTO['agente']['exemplos_linguagem']['recusa_educada']}"
-            )
-            
-            st.write(resposta_ia)
-            st.session_state.messages.append({"role": "assistant", "content": resposta_ia})
