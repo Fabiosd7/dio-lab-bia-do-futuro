@@ -102,30 +102,30 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                     contexto_api.append({"role": msg["role"], "content": msg["content"]})
                 
                 try:
-                    # Chamada ao modelo gratuito da Meta
+                    # MUDANÇA: Usando o modelo gratuito do Gemini (muito mais robusto contra quedas)
                     completion = client.chat.completions.create(
-                        model="meta-llama/llama-3.2-1b-instruct:free",
+                        model="google/gemini-2.5-flash:free",
                         messages=contexto_api,
                         temperature=0.3
                     )
                     
-                    # Correção do erro: verifica o tipo de resposta retornado pelo OpenRouter
+                    # Captura a resposta tratando se vier como texto (evitando códigos HTML) ou JSON
                     if isinstance(completion, str):
-                        bot_response = completion
+                        if "<doctype html" in completion.lower() or "<html" in completion.lower():
+                            bot_response = "O servidor gratuito do OpenRouter está instável no momento. Pode tentar enviar sua mensagem novamente?"
+                        else:
+                            bot_response = completion
                     elif hasattr(completion, 'choices') and len(completion.choices) > 0:
-                        bot_response = completion.choices[message].message.content
+                        bot_response = completion.choices[0].message.content
                     else:
-                        # Fallback caso venha em outro formato de dicionário
                         dados_resposta = dict(completion)
                         bot_response = dados_resposta['choices'][0]['message']['content']
                         
                 except Exception as e:
-                    bot_response = f"Desculpe, deu um erro ao processar a resposta da IA: {str(e)}"
+                    bot_response = "Opa, o servidor de IA gratuito demorou para responder. Por favor, envie sua mensagem novamente!"
                 
                 st.write(bot_response)
                 st.session_state.messages.append({"role": "assistant", "content": bot_response})
-
-
 
 
 
