@@ -121,21 +121,29 @@ e alguns **CRI/CRA**."""
             elif any(g in termo_limpo for g in ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]):
                 bot_response = """Para proteger contra a inflação, o conceito ideal é o **Tesouro IPCA+**."""
 
-            # Busca no JSON
-            if bot_response == "":
-                if "produtos_renda_fixa" in dados_base:
-                    for prod in dados_base["produtos_renda_fixa"]:
-                        sigla_norm = normalizar_texto(prod["sigla"])
-                        nome_norm = normalizar_texto(prod["nome"])
-                        if sigla_norm in termo_limpo or nome_norm in termo_limpo:
-                            bot_response = f"""Perfeito! Deixa eu te guiar sobre o **{prod['sigla']}** ({prod['nome']}).
+           # Busca no JSON
+if bot_response == "":
+    if "produtos_renda_fixa" in dados_base:
+        for prod in dados_base["produtos_renda_fixa"]:
+            sigla_norm = normalizar_texto(prod["sigla"])
+            nome_norm = normalizar_texto(prod["nome"])
+            if sigla_norm in termo_limpo or nome_norm in termo_limpo:
+                bot_response = f"""Perfeito! Deixa eu te guiar sobre o **{prod['sigla']}** ({prod['nome']}).
 
-📊 Rentabilidade simulada: {prod['rentabilidade_simulada']}.
-🛡️ Perfil e Risco: Indicado para perfis {', '.join(prod['perfis_compativeis'])} com risco {prod['risco']}.
-⏱️ Liquidez: {prod['liquidez']}.
+📊 Rentabilidade simulada: {prod['rentabilidade_simulada']}
+📈 Exemplo de Simulação: {prod.get('exemplo_simulacao', 'Não disponível')}
+🛡️ Perfil e Risco: Indicado para perfis {', '.join(prod['perfis_compativeis'])} com risco {prod['risco']}
+⏱️ Liquidez: {prod['liquidez']}
+🔒 Garantia FGC: {"Sim" if prod['garantia_FGC'] else "Não"}
 
-💡 Comparativo com a Poupança: {prod['comparativo_poupanca']}"""
-                            break
+💡 Comparativo com a Poupança: {prod['comparativo_poupanca']}
+🎯 Objetivo: {prod['objetivo']}
+🔖 Também conhecido como: {', '.join(prod['sinonimos'])}
+
+Esses valores são apenas **simulações educativas**, para mostrar como a renda fixa supera a poupança.
+"""
+                break
+
 
             # Fallback final
             if bot_response == "":
