@@ -121,14 +121,14 @@ e alguns **CRI/CRA**."""
             elif any(g in termo_limpo for g in ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]):
                 bot_response = """Para proteger contra a inflação, o conceito ideal é o **Tesouro IPCA+**."""
 
-# Busca no JSON
-if bot_response == "":
-    if "produtos_renda_fixa" in dados_base:
-        for prod in dados_base["produtos_renda_fixa"]:
-            sigla_norm = normalizar_texto(prod["sigla"])
-            nome_norm = normalizar_texto(prod["nome"])
-            if sigla_norm in termo_limpo or nome_norm in termo_limpo:
-                bot_response = f"""Perfeito! Deixa eu te guiar sobre o **{prod['sigla']}** ({prod['nome']}).
+            # Busca no JSON
+            if bot_response == "":
+                if "produtos_renda_fixa" in dados_base:
+                    for prod in dados_base["produtos_renda_fixa"]:
+                        sigla_norm = normalizar_texto(prod["sigla"])
+                        nome_norm = normalizar_texto(prod["nome"])
+                        if sigla_norm in termo_limpo or nome_norm in termo_limpo:
+                            bot_response = f"""Perfeito! Deixa eu te guiar sobre o **{prod['sigla']}** ({prod['nome']}).
 
 📊 Rentabilidade simulada: {prod['rentabilidade_simulada']}
 📈 Exemplo de Simulação: {prod.get('exemplo_simulacao', 'Não disponível')}
@@ -142,16 +142,16 @@ if bot_response == "":
 
 Esses valores são apenas **simulações educativas**, para mostrar como a renda fixa supera a poupança.
 """
-                break
+                            break
 
-# Fallback final
-if bot_response == "":
-    bot_response = """Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
+            # Fallback final
+            if bot_response == "":
+                bot_response = """Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
 
 Não localizei esse termo específico no meu catálogo, mas posso te explicar CDB, Tesouro Selic, LCI/LCA ou Debêntures. 
 Qual desses você gostaria de compreender melhor?"""
 
-
             # Exibe e salva resposta
             st.write(bot_response)
             st.session_state.messages.append({"role": "assistant", "content": bot_response})
+
