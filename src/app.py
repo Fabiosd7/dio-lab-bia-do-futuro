@@ -121,7 +121,7 @@ e alguns **CRI/CRA**."""
             elif any(g in termo_limpo for g in ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]):
                 bot_response = """Para proteger contra a inflação, o conceito ideal é o **Tesouro IPCA+**."""
 
-           # Busca no JSON
+# Busca no JSON
 if bot_response == "":
     if "produtos_renda_fixa" in dados_base:
         for prod in dados_base["produtos_renda_fixa"]:
@@ -144,13 +144,13 @@ Esses valores são apenas **simulações educativas**, para mostrar como a renda
 """
                 break
 
-
-            # Fallback final
-            if bot_response == "":
-                bot_response = """Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
+# Fallback final
+if bot_response == "":
+    bot_response = """Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
 
 Não localizei esse termo específico no meu catálogo, mas posso te explicar CDB, Tesouro Selic, LCI/LCA ou Debêntures. 
 Qual desses você gostaria de compreender melhor?"""
+
 
             # Exibe e salva resposta
             st.write(bot_response)
