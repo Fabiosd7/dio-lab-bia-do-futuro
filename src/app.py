@@ -67,31 +67,28 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             termo = frase_original.lower()
             bot_response = ""
             
-            # --- INTELIGÊNCIA ADICIONADA: Descobre se a mensagem contém uma pergunta (?) ---
             tem_interrogacao = "?" in termo
-            # Limpa o termo removendo a interrogação para facilitar as buscas por palavras-chave
             termo_limpo = termo.replace("?", "").strip()
             
-            # Lógica para Saudações e Perguntas de Cortesia ("Tudo bem?")
-            if termo_limpo in ["oi", "ola", "olá", "bom dia", "boa tarde", "boa noite"]:
-                bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋
-
-Estou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.
-O que você gostaria de explorar ou entender melhor hoje?"""
-            
-            elif termo_limpo in ["tudo bem", "tudo bom"]:
+            # --- CORREÇÃO DE DIÁLOGO ADAPTATIVA ---
+            # Se o usuário misturar saudações (ex: "oi tudo bem?"), o código prioriza responder a saudação primeiro
+            if "tudo bem" in termo_limpo or "tudo bom" in termo_limpo:
                 if tem_interrogacao:
-                    # Se o usuário perguntou "Tudo bem?", o Gui responde de forma simpática
                     bot_response = """Tudo excelente comigo, obrigado por perguntar! E com você, tudo certinho? 😊
 
 Estou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?"""
                 else:
-                    # Se o usuário apenas afirmou "tudo bem" como resposta ou concordância no fluxo
                     bot_response = """Maravilha! Vamos em frente. 🎯
 
 Como seu guia de educação financeira, posso te explicar os conceitos do nosso catálogo (CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).
 
 Para direcionarmos o papo, você prefere focar em segurança absoluta, conhecer opções isentas de Imposto de Renda ou títulos para o longo prazo?"""
+            
+            elif termo_limpo in ["oi", "ola", "olá", "bom dia", "boa tarde", "boa noite"]:
+                bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋
+
+Estou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.
+O que você gostaria de explorar ou entender melhor hoje?"""
             
             elif termo_limpo in ["sim", "entendi", "ok", "beleza", "com certeza"]:
                 bot_response = """Excelente! Então vamos continuar focados no aprendizado.
@@ -144,14 +141,13 @@ Não localizei esse termo específico no meu catálogo, mas posso te explicar as
                     else:
                         bot_response = """Entendi o seu ponto! Como seu amigo inteligente de educação financeira, posso te explicar de forma simples todos os conceitos do mercado de Renda Fixa.
 
-Para direcionarmos o nosso papo, me conta: você prioriza segurança absoluta, quer um investimento que seja isento de Imposto de Renda ou busca algo focado em longo prazo?"""
+Para direcionarmos o Macau, me conta: você prioriza segurança absoluta, quer um investimento que seja isento de Imposto de Renda ou busca algo focado em longo prazo?"""
             
             # Adiciona a recusa educada obrigatória de compliance no final de todos os fluxos
             final_response = f"{bot_response}\n\n*Nota do Gui: {DADOS_GUI['recusa_educada']}*"
             
             st.write(final_response)
             st.session_state.messages.append({"role": "assistant", "content": final_response})
-
 
 
 
