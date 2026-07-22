@@ -87,7 +87,12 @@ Para direcionarmos o nosso papo, você prefere focar em segurança absoluta, con
 isentas de Imposto de Renda ou títulos para o longo prazo?"""
             }
 
-            gatilhos_tudo_bem = ["tudo bem", "tudo bom", "tudo joia", "tudo otimo", "tudo certo", "tudo beleza", "tudo suave", "tudo tranquilo", "tudo belezinha", "tudo sussa", "joia", "otimo", "suave", "tranquilo"]
+            # Lista expandida de gatilhos
+            gatilhos_tudo_bem = [
+                "tudo bem", "tudo bom", "tudo joia", "tudo otimo", "tudo certo", "tudo beleza",
+                "tudo suave", "tudo tranquilo", "tudo belezinha", "tudo sussa", "joia", "otimo",
+                "suave", "tranquilo", "tudo certinho", "certinho", "tudo cerinho", "td bem", "td certo"
+            ]
             gatilhos_saudacoes = ["oi", "ola", "bom dia", "boa tarde", "boa noite", "eae", "opa", "salve", "fala"]
             gatilhos_concordancia = ["sim", "entendi", "ok", "beleza", "com certeza", "bora", "vamos", "pode ser", "fechou", "demoro"]
 
@@ -102,44 +107,5 @@ O que você gostaria de explorar ou entender melhor hoje?"""
             elif any(g == termo_limpo for g in gatilhos_concordancia):
                 bot_response = """Excelente! Então vamos continuar focados no aprendizado.
 
-Para te guiar melhor, me conta: qual conceito de investimento você tem mais curiosidade 
-em entender como funciona em comparação com a Poupança tradicional?"""
-            elif any(g in termo_limpo for g in ["seguranca", "seguro", "perder", "reserva", "risco", "proteg", "medo", "garant"]):
-                bot_response = """Se o seu foco principal é **segurança absoluta**, educacionalmente as melhores opções 
-são o **Tesouro Selic** e os **CDBs com liquidez diária**."""
-            elif any(g in termo_limpo for g in ["render mais", "melhor ganho", "lucro", "rentabilidade", "ganhar mais", "rente mais", "maior retorno", "render", "rendimento"]):
-                bot_response = """Se você busca **rentabilidade mais agressiva**, opções como **Debêntures** e **CRI/CRA** 
-podem aparecer. Mas atenção: não contam com a proteção do FGC e envolvem maior risco."""
-            elif any(g in termo_limpo for g in ["imposto", "ir", "isento", "leao", "descont", "taxa"]):
-                bot_response = """Existem títulos **isentos de Imposto de Renda** para pessoa física, como **LCI/LCA** 
-e alguns **CRI/CRA**."""
-            elif any(g in termo_limpo for g in ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]):
-                bot_response = """Para proteger contra a inflação, o conceito ideal é o **Tesouro IPCA+**."""
-
-            # Busca no JSON
-            if bot_response == "":
-                if "produtos_renda_fixa" in dados_base:
-                    for prod in dados_base["produtos_renda_fixa"]:
-                        sigla_norm = normalizar_texto(prod["sigla"])
-                        nome_norm = normalizar_texto(prod["nome"])
-                        if sigla_norm in termo_limpo or nome_norm in termo_limpo:
-                            bot_response = f"""Perfeito! Deixa eu te guiar sobre o **{prod['sigla']}** ({prod['nome']}).
-
-📊 Rentabilidade simulada: {prod['rentabilidade_simulada']}.
-🛡️ Perfil e Risco: Indicado para perfis {', '.join(prod['perfis_compativeis'])} com risco {prod['risco']}.
-⏱️ Liquidez: {prod['liquidez']}.
-
-💡 Comparativo com a Poupança: {prod['comparativo_poupanca']}"""
-                            break
-
-            # Fallback final
-            if bot_response == "":
-                bot_response = """Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
-
-Não localizei esse termo específico no meu catálogo, mas posso te explicar CDB, Tesouro Selic, LCI/LCA ou Debêntures. 
-Qual desses você gostaria de compreender melhor?"""
-
-            # Exibe e salva resposta
-            st.write(bot_response)
-            st.session_state.messages.append({"role": "assistant", "content": bot_response})
+Para te guiar melhor, me conta: qual conceito de investimento você
 
