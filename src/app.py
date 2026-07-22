@@ -76,58 +76,56 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             termo_limpo = normalizar_texto(frase_original.replace("?", ""))
             bot_response = ""
             
-            # Listas de palavras-chave para mapeamento de gírias e intenções
+            # --- MAPA DE RESPOSTAS EM ESTRUTURA LINEAR (PREVINE ERROS DE ESPAÇO) ---
+            respostas_tudo_bem = {
+                True: "Tudo excelente comigo, parceiro! Obrigado por perguntar. E com você, tudo certinho? 😊\n\nEstou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?",
+                False: "Maravilha! Fico feliz que esteja tudo joia por aí. Vamos direto ao ponto! 🎯\n\nComo seu guia de educação financeira, posso te explicar os conceitos do nosso catálogo (CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).\n\nPara direcionarmos o nosso papo, você prefere focar em segurança absoluta, conhecer opções isentas de Imposto de Renda ou títulos para o longo prazo?"
+            }
+            
             gatilhos_tudo_bem = ["tudo bem", "tudo bom", "tudo joia", "tudo otimo", "tudo certo", "tudo beleza", "tudo suave", "tudo tranquilo", "tudo belezinha", "tudo sussa", "joia", "otimo", "suave", "tranquilo"]
             gatilhos_saudacoes = ["oi", "ola", "bom dia", "boa tarde", "boa noite", "eae", "opa", "salve", "fala"]
             gatilhos_concordancia = ["sim", "entendi", "ok", "beleza", "com certeza", "bora", "vamos", "pode ser", "fechou", "demoro"]
             
-            gatilhos_seguranca = ["seguranca", "seguro", "perder", "reserva", "risco", "proteg", "medo", "garant"]
-            gatilhos_rentabilidade = ["render mais", "melhor ganho", "lucro", "rentabilidade", "ganhar mais", "rente mais", "maior retorno", "render", "rendimento"]
-            gatilhos_imposto = ["imposto", "ir", "isento", "leao", "descont", "taxa"]
-            gatilhos_inflacao = ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]
-
-            # --- PROCESSAMENTO LOGÍSTICO DAS RESPOSTAS ---
+            # 1. Checagem de saudações combinadas e variações de "tudo bem"
+            if any(g in termo_limpo for g in gatilhos_tudo_bem):
+                bot_response = respostas_tudo_bem[tem_interrogacao]
             
-            if any(gatilho in termo_limpo for gatilho in gatilhos_tudo_bem) and tem_interrogacao:
-                bot_response = "Tudo excelente comigo, parceiro! Obrigado por perguntar. E com você, tudo certinho? 😊\n\nEstou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?"
-            
-            elif any(gatilho in termo_limpo for gatilho in gatilhos_tudo_bem) and not tem_interrogacao:
-                bot_response = "Maravilha! Fico feliz que esteja tudo joia por aí. Vamos direto ao ponto! 🎯\n\nComo seu guia de educação financeira, posso te explicar os conceitos do nosso catálogo (CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).\n\nPara direcionarmos o nosso papo, você prefere focar em segurança absoluta, conhecer opções isentas de Imposto de Renda ou títulos para o longo prazo?"
-            
-            elif any(gatilho in termo_limpo for gatilho in gatilhos_saudacoes):
+            # 2. Saudações simples (oi, olá)
+            elif any(g in termo_limpo for g in gatilhos_saudacoes) and bot_response == "":
                 bot_response = "Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋\n\nEstou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.\nO que você gostaria de explorar ou entender melhor hoje?"
             
-            elif any(gatilho == termo_limpo for gatilho in gatilhos_concordancia):
+            # 3. Concordâncias (sim, ok)
+            elif any(g == termo_limpo for g in gatilhos_concordancia) and bot_response == "":
                 bot_response = "Excelente! Então vamos continuar focados no aprendizado.\n\nPara te guiar melhor, me conta: qual conceito de investimento você tem mais curiosidade em entender como funciona em comparação com a Poupança tradicional?"
                 
-            elif any(gatilho in termo_limpo for gatilho in gatilhos_seguranca):
+            # 4. Mapeamento de intenções financeiras (Segurança)
+            elif any(g in termo_limpo for g in ["seguranca", "seguro", "perder", "reserva", "risco", "proteg", "medo", "garant"]) and bot_response == "":
                 bot_response = "Deixa eu te guiar de um jeito simples! Se o seu foco principal é **segurança absoluta** e proteção contra perdas, educacionalmente as melhores opções da nossa base são o **Tesouro Selic** e os **CDBs com liquidez diária**.\n\nTítulo Público Federal é garantido pelo Governo Federal (o que o torna o ativo mais seguro do país), enquanto o CDB possui a proteção do Fundo Garantidor de Crédito (FGC) para valores até R$ 250 mil. Ambos rendem quase o dobro da Poupança tradicional mantendo seu dinheiro protegido."
             
-            elif any(gatilho in termo_limpo for gatilho in gatilhos_rentabilidade):
+            # 5. Mapeamento de intenções financeiras (Rentabilidade)
+            elif any(g in termo_limpo for g in ["render mais", "melhor ganho", "lucro", "rentabilidade", "ganhar mais", "rente mais", "maior retorno", "render", "rendimento"]) and bot_response == "":
                 bot_response = "Olha, se você busca uma **rentabilidade mais agressiva** dentro da Renda Fixa, o mercado te oferece opções teóricas como as **Debêntures** e os títulos de **CRI / CRA**.\n\nEsses produtos costumam render acima de 115% do CDI ou IPCA + Taxas Altas porque financiam empresas privadas. Mas atenção ao detalhe técnico: eles possuem maior risco e **não contam com a proteção do FGC**, sendo indicados para prazos mais longos."
             
-            elif any(gatilho in termo_limpo for gatilho in gatilhos_imposto):
+            # 6. Mapeamento de intenções financeiras (Impostos)
+            elif any(g in termo_limpo for g in ["imposto", "ir", "isento", "leao", "descont", "taxa"]) and bot_response == "":
                 bot_response = "Deixa o Gui te explicar um detalhe que faz muita diferença no bolso! Se você quer fugir do Imposto de Renda, existem títulos criados para incentivar setores da economia que são **100% isentos de Imposto de Renda** para pessoa física.\n\nSão as **LCI / LCA** (emitidas por bancos e protegidas pelo FGC) e os **CRI / CRA** (crédito privado). Como o governo não desconta nada do seu lucro na hora do resgate, o rendimento líquido final costuma ser muito avantajoso comparado a um CDB comum."
             
-            elif any(gatilho in termo_limpo for gatilho in gatilhos_inflacao):
+            # 7. Mapeamento de intenções financeiras (Inflação)
+            elif any(g in termo_limpo for g in ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]) and bot_response == "":
                 bot_response = "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceito ideal para você é o **Tesouro IPCA+**.\n\nEsse título público rende uma taxa fixa mais a variação da inflação oficial (IPCA). Isso garante matematicamente que o seu dinheiro nunca vai perder o poder de compra ao longo dos anos, sendo uma excelente opção conceitual para planos de médio e longo prazo."
-
-            # --- SEÇÃO PRODUTOS DO JSON (SEM NENHUM COMANDO ELSE) ---
+            
+            # 8. Busca por siglas diretas no JSON de produtos
             if bot_response == "":
-                produto_encontrado = None
                 if "produtos_renda_fixa" in dados_base:
                     for prod in dados_base["produtos_renda_fixa"]:
                         sigla_norm = normalizar_texto(prod["sigla"])
                         nome_norm = normalizar_texto(prod["nome"])
                         if sigla_norm in termo_limpo or nome_norm in termo_limpo:
-                            produto_encontrado = prod
+                            bot_response = "Perfeito! Deixa eu te guiar de um jeito simples sobre o **" + prod['sigla'] + "** (" + prod['nome'] + ").\n\n📊 *Rentabilidade simulada:* " + prod['rentabilidade_simulada'] + ".\n🛡️ *Perfil e Risco:* Indicado para perfis " + ", ".join(prod['perfis_compativeis']) + " com risco " + prod['risco'] + ".\n⏱️ *Liquidez:* " + prod['liquidez'] + ".\n\n💡 *Comparativo com a Poupança:* " + prod['comparativo_poupanca']
                             break
-                if produto_encontrado:
-                    bot_response = f"Perfeito! Deixa eu te guiar de um jeito simples sobre o **{produto_encontrado['sigla']}** ({produto_encontrado['nome']}).\n\n📊 *Rentabilidade simulada:* {produto_encontrado['rentabilidade_simulada']}.\n🛡️ *Perfil e Risco:* Indicado para perfis {', '.join(produto_encontrado['perfis_compativeis'])} com risco {produto_encontrado['risco']}.\n⏱️ *Liquidez:* {produto_encontrado['liquidez']}.\n\n💡 *Comparativo com a Poupança:* {produto_encontrado['comparativo_poupanca']}"
-
-            # --- SEÇÃO FALLBACKS FINAIS (ZERO ELSES, PURAMENTE LINEAR) ---
+            
+            # 9. Respostas de Fallback caso o texto digitado não entre em nenhuma regra anterior
             if bot_response == "":
                 if tem_interrogacao:
                     bot_response = "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa de forma prática.\n\nNão localizei esse termo específico no meu catálogo, mas posso te explicar as regras de CDB, Tesouro Selic, LCI/LCA ou Debêntures. Qual desses você tem interesse em compreender?"
                 if not tem_interrogacao:
-
