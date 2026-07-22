@@ -65,47 +65,4 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
 
     with st.chat_message("assistant"):
         with st.spinner("O Gui está analisando a base de conhecimento..."):
-            dados_base = carregar_dados_financeiros()
-            frase_original = user_input.strip()
-            tem_interrogacao = "?" in frase_original
-            termo_limpo = normalizar_texto(frase_original.replace("?", ""))
-            bot_response = ""
-
-            # Mapas de respostas
-            respostas_tudo_bem = {
-                True: """Tudo excelente comigo, parceiro! Obrigado por perguntar. 
-E com você, tudo certinho? 😊
-
-Estou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. 
-Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?""",
-                False: """Maravilha! Fico feliz que esteja tudo joia por aí. Vamos direto ao ponto! 🎯
-
-Como seu guia de educação financeira, posso te explicar os conceitos do nosso catálogo 
-(CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).
-
-Para direcionarmos o nosso papo, você prefere focar em segurança absoluta, conhecer opções 
-isentas de Imposto de Renda ou títulos para o longo prazo?"""
-            }
-
-            # Lista expandida de gatilhos
-            gatilhos_tudo_bem = [
-                "tudo bem", "tudo bom", "tudo joia", "tudo otimo", "tudo certo", "tudo beleza",
-                "tudo suave", "tudo tranquilo", "tudo belezinha", "tudo sussa", "joia", "otimo",
-                "suave", "tranquilo", "tudo certinho", "certinho", "tudo cerinho", "td bem", "td certo"
-            ]
-            gatilhos_saudacoes = ["oi", "ola", "bom dia", "boa tarde", "boa noite", "eae", "opa", "salve", "fala"]
-            gatilhos_concordancia = ["sim", "entendi", "ok", "beleza", "com certeza", "bora", "vamos", "pode ser", "fechou", "demoro"]
-
-            # Regras de resposta
-            if any(g in termo_limpo for g in gatilhos_tudo_bem):
-                bot_response = respostas_tudo_bem[tem_interrogacao]
-            elif any(g in termo_limpo for g in gatilhos_saudacoes):
-                bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋
-
-Estou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.
-O que você gostaria de explorar ou entender melhor hoje?"""
-            elif any(g == termo_limpo for g in gatilhos_concordancia):
-                bot_response = """Excelente! Então vamos continuar focados no aprendizado.
-
-Para te guiar melhor, me conta: qual conceito de investimento você
 
