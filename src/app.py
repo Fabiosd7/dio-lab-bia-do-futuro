@@ -67,13 +67,10 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             termo = frase_original.lower()
             bot_response = ""
             
-            # --- INTELEGÊNCIA ADICIONADA: Descobre se a mensagem contém uma pergunta (?) ---
+            # --- INTELIGÊNCIA ADICIONADA: Descobre se a mensagem contém uma pergunta (?) ---
             tem_interrogacao = "?" in termo
             # Limpa o termo removendo a interrogação para facilitar as buscas por palavras-chave
             termo_limpo = termo.replace("?", "").strip()
-            
-            # Conta quantas mensagens existem no chat para saber o estágio da conversa
-            primeira_interacao = len(st.session_state.messages) <= 3
             
             # Lógica para Saudações e Perguntas de Cortesia ("Tudo bem?")
             if termo_limpo in ["oi", "ola", "olá", "bom dia", "boa tarde", "boa noite"]:
@@ -85,7 +82,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             
             elif termo_limpo in ["tudo bem", "tudo bom"]:
                 if tem_interrogacao:
-                    # Se o usuário perguntou "Tudo bem?", o Gui responde e pergunta de volta de forma simpática
+                    # Se o usuário perguntou "Tudo bem?", o Gui responde de forma simpática
                     bot_response = (
                         "Tudo excelente comigo, obrigado por perguntar! E com você, tudo certinho? 😊\n\n"
                         "Estou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. "
@@ -153,10 +150,12 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                         f"💡 *Comparativo com a Poupança:* {produto_encontrado['comparativo_poupanca']}"
                     )
                 else:
-                    # Fallback adaptado se o usuário fez uma pergunta geral com '?' que não mapeamos acima
+                    # --- CORREÇÃO DO PARÊNTESE DA LINHA 158 AQUI ---
                     if tem_interrogacao:
                         bot_response = (
-
+                            "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer "
+                            "conceitos de Renda Fixa de forma prática.\n\n"
+                            "Não localizei esse termo específico no meu catálogo, mas posso te explicar as regras de "
 
 
 
