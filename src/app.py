@@ -73,8 +73,18 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
 
             # Mapas de respostas
             respostas_tudo_bem = {
-                True: "Tudo excelente comigo, parceiro! Obrigado por perguntar. E com você, tudo certinho? 😊\n\nEstou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?",
-                False: "Maravilha! Fico feliz que esteja tudo joia por aí. Vamos direto ao ponto! 🎯\n\nComo seu guia de educação financeira, posso te explicar os conceitos do nosso catálogo (CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).\n\nPara direcionarmos o nosso papo, você prefere focar em segurança absoluta, conhecer opções isentas de Imposto de Renda ou títulos para o longo prazo?"
+                True: """Tudo excelente comigo, parceiro! Obrigado por perguntar. 
+E com você, tudo certinho? 😊
+
+Estou pronto para te guiar pelas opções conceituais de Renda Fixa da minha base. 
+Gostaria de começar entendendo sobre CDB, LCI/LCA ou Tesouro Direto?""",
+                False: """Maravilha! Fico feliz que esteja tudo joia por aí. Vamos direto ao ponto! 🎯
+
+Como seu guia de educação financeira, posso te explicar os conceitos do nosso catálogo 
+(CDB, Letras de Crédito, Títulos Públicos, Debêntures, etc.).
+
+Para direcionarmos o nosso papo, você prefere focar em segurança absoluta, conhecer opções 
+isentas de Imposto de Renda ou títulos para o longo prazo?"""
             }
 
             gatilhos_tudo_bem = ["tudo bem", "tudo bom", "tudo joia", "tudo otimo", "tudo certo", "tudo beleza", "tudo suave", "tudo tranquilo", "tudo belezinha", "tudo sussa", "joia", "otimo", "suave", "tranquilo"]
@@ -85,17 +95,26 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             if any(g in termo_limpo for g in gatilhos_tudo_bem):
                 bot_response = respostas_tudo_bem[tem_interrogacao]
             elif any(g in termo_limpo for g in gatilhos_saudacoes):
-                bot_response = "Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋\n\nEstou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.\nO que você gostaria de explorar ou entender melhor hoje?"
+                bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋
+
+Estou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.
+O que você gostaria de explorar ou entender melhor hoje?"""
             elif any(g == termo_limpo for g in gatilhos_concordancia):
-                bot_response = "Excelente! Então vamos continuar focados no aprendizado.\n\nPara te guiar melhor, me conta: qual conceito de investimento você tem mais curiosidade em entender como funciona em comparação com a Poupança tradicional?"
+                bot_response = """Excelente! Então vamos continuar focados no aprendizado.
+
+Para te guiar melhor, me conta: qual conceito de investimento você tem mais curiosidade 
+em entender como funciona em comparação com a Poupança tradicional?"""
             elif any(g in termo_limpo for g in ["seguranca", "seguro", "perder", "reserva", "risco", "proteg", "medo", "garant"]):
-                bot_response = "Se o seu foco principal é **segurança absoluta**, educacionalmente as melhores opções são o **Tesouro Selic** e os **CDBs com liquidez diária**."
+                bot_response = """Se o seu foco principal é **segurança absoluta**, educacionalmente as melhores opções 
+são o **Tesouro Selic** e os **CDBs com liquidez diária**."""
             elif any(g in termo_limpo for g in ["render mais", "melhor ganho", "lucro", "rentabilidade", "ganhar mais", "rente mais", "maior retorno", "render", "rendimento"]):
-                bot_response = "Se você busca **rentabilidade mais agressiva**, opções como **Debêntures** e **CRI/CRA** podem aparecer. Mas atenção: não contam com a proteção do FGC e envolvem maior risco."
+                bot_response = """Se você busca **rentabilidade mais agressiva**, opções como **Debêntures** e **CRI/CRA** 
+podem aparecer. Mas atenção: não contam com a proteção do FGC e envolvem maior risco."""
             elif any(g in termo_limpo for g in ["imposto", "ir", "isento", "leao", "descont", "taxa"]):
-                bot_response = "Existem títulos **isentos de Imposto de Renda** para pessoa física, como **LCI/LCA** e alguns **CRI/CRA**."
+                bot_response = """Existem títulos **isentos de Imposto de Renda** para pessoa física, como **LCI/LCA** 
+e alguns **CRI/CRA**."""
             elif any(g in termo_limpo for g in ["inflacao", "poder de compra", "ipca", "preco", "mercado", "caro"]):
-                bot_response = "Para proteger contra a inflação, o conceito ideal é o **Tesouro IPCA+**."
+                bot_response = """Para proteger contra a inflação, o conceito ideal é o **Tesouro IPCA+**."""
 
             # Busca no JSON
             if bot_response == "":
@@ -104,19 +123,23 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                         sigla_norm = normalizar_texto(prod["sigla"])
                         nome_norm = normalizar_texto(prod["nome"])
                         if sigla_norm in termo_limpo or nome_norm in termo_limpo:
-                            bot_response = (
-                                f"Perfeito! Deixa eu te guiar sobre o **{prod['sigla']}** ({prod['nome']}).\n\n"
-                                f"📊 Rentabilidade simulada: {prod['rentabilidade_simulada']}.\n"
-                                f"🛡️ Perfil e Risco: Indicado para perfis {', '.join(prod['perfis_compativeis'])} com risco {prod['risco']}.\n"
-                                f"⏱️ Liquidez: {prod['liquidez']}.\n\n"
-                                f"💡 Comparativo com a Poupança: {prod['comparativo_poupanca']}"
-                            )
+                            bot_response = f"""Perfeito! Deixa eu te guiar sobre o **{prod['sigla']}** ({prod['nome']}).
+
+📊 Rentabilidade simulada: {prod['rentabilidade_simulada']}.
+🛡️ Perfil e Risco: Indicado para perfis {', '.join(prod['perfis_compativeis'])} com risco {prod['risco']}.
+⏱️ Liquidez: {prod['liquidez']}.
+
+💡 Comparativo com a Poupança: {prod['comparativo_poupanca']}"""
                             break
 
             # Fallback final
             if bot_response == "":
-                bot_response = (
-                    "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.\n\n"
-                    "Não localizei esse termo específico no meu catálogo, mas posso te explicar CDB, Tesouro Selic, LCI/LCA ou Debêntures. "
-                    "Qual desses você
-                
+                bot_response = """Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
+
+Não localizei esse termo específico no meu catálogo, mas posso te explicar CDB, Tesouro Selic, LCI/LCA ou Debêntures. 
+Qual desses você gostaria de compreender melhor?"""
+
+            # Exibe e salva resposta
+            st.write(bot_response)
+            st.session_state.messages.append({"role": "assistant", "content": bot_response})
+
