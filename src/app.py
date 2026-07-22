@@ -30,7 +30,7 @@ DADOS_GUI = {
 
 # Título e cabeçalho da interface do usuário
 st.title(f"🤖 {DADOS_GUI['nome']} - {DADOS_GUI['titulo']}")
-st.write("Interface activa com Inteligência Artificial Ultrarrápida da Cerebras!")
+st.write("Interface ativa com Inteligência Artificial Ultrarrápida da Cerebras!")
 
 # Barra Lateral (Menu Esquerdo) com as regras de Compliance
 with st.sidebar:
@@ -105,17 +105,30 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 for msg in st.session_state.messages:
                     contexto_api.append({"role": msg["role"], "content": msg["content"]})
                 
-                try:
-                    # CORREÇÃO AQUI: Nome do modelo atualizado para o catálogo vigente da Cerebras
-                    completion = client.chat.completions.create(
-                        model="llama-3.1-8b-instant",
-                        messages=contexto_api,
-                        temperature=0.3,
-                        max_tokens=1024
-                    )
-                    bot_response = completion.choices.message.content
-                except Exception as e:
-                    bot_response = f"Desculpe, houve uma falha de conexão com a infraestrutura da Cerebras: {str(e)}"
+                # --- SISTEMA DE STRATEGY FALLBACK CONTRA MUDANÇAS DE MODELO NA CEREBRAS ---
+                modelos_para_tentar = ["llama-3.3-70b", "llama3.1-8b", "llama-3.1-8b-instant", "gemma2-9b"]
+                bot_response = ""
+                
+                for modelo in modelos_para_tentar:
+                    try:
+                        completion = client.chat.completions.create(
+                            model=modelo,
+                            messages=contexto_api,
+                            temperature=0.3,
+                            max_tokens=1024
+                        )
+                        bot_response = completion.choices.message.content
+                        # Se funcionou e trouxe a resposta, quebra o laço de repetição com sucesso!
+                        if bot_response:
+                            break
+                    except Exception as e:
+                        # Guarda o erro temporariamente e tenta o próximo modelo da lista
+                        bot_response = f"Erro no modelo {modelo}: {str(e)}"
+                        continue
+                
+                # Se após varrer todos os modelos ainda persistir o erro 404, exibe uma mensagem limpa
+                if "404" in bot_response or "model_not_found" in bot_response:
+                    bot_response = "A Cerebras atualizou os modelos do painel deles no momento. Por favor, tente enviar sua pergunta novamente para reiniciar a conexão!"
             
             # Formata a resposta final garantindo a nota de compliance
             if DADOS_GUI["recusa_educada"] not in bot_response:
