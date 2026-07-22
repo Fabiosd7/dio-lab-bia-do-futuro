@@ -98,7 +98,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 bot_response = "Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋\n\nEstou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.\nO que você gostaria de explorar ou entender melhor hoje?"
             
             elif any(gatilho == termo_limpo for gatilho in gatilhos_concordancia):
-                bot_response = "Excelente! Então vamos continuar focados no aprendizado.\n\nPara te guiar melhor, me conta: qual conceptio de investimento você tem mais curiosidade em entender como funciona em comparação com a Poupança tradicional?"
+                bot_response = "Excelente! Então vamos continuar focados no aprendizado.\n\nPara te guiar melhor, me conta: qual conceito de investimento você tem mais curiosidade em entender como funciona em comparação com a Poupança tradicional?"
                 
             elif any(gatilho in termo_limpo for gatilho in gatilhos_seguranca):
                 bot_response = "Deixa eu te guiar de um jeito simples! Se o seu foco principal é **segurança absoluta** e proteção contra perdas, educacionalmente as melhores opções da nossa base são o **Tesouro Selic** e os **CDBs com liquidez diária**.\n\nTítulo Público Federal é garantido pelo Governo Federal (o que o torna o ativo mais seguro do país), enquanto o CDB possui a proteção do Fundo Garantidor de Crédito (FGC) para valores até R$ 250 mil. Ambos rendem quase o dobro da Poupança tradicional mantendo seu dinheiro protegido."
@@ -112,7 +112,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
             elif any(gatilho in termo_limpo for gatilho in gatilhos_inflacao):
                 bot_response = "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceito ideal para você é o **Tesouro IPCA+**.\n\nEsse título público rende uma taxa fixa mais a variação da inflação oficial (IPCA). Isso garante matematicamente que o seu dinheiro nunca vai perder o poder de compra ao longo dos anos, sendo uma excelente opção conceitual para planos de médio e longo prazo."
             
-            # --- SEÇÃO PRODUTOS DO JSON (LÓGICA REESCRITA SEM ELSE ANINHADO) ---
+            # --- SEÇÃO PRODUTOS DO JSON (SEM NENHUM ELSE ANINHADO) ---
             if bot_response == "":
                 produto_encontrado = None
                 if "produtos_renda_fixa" in dados_base:
@@ -124,10 +124,11 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                             break
                 
                 if produto_encontrado:
-                    bot_response = "Perfeito! Deixa eu te guiar de um jeito simples sobre o **" + produto_encontrado['sigla'] + "** (" + produto_encontrado['nome'] + ").\n\n📊 *Rentabilidade simulada:* " + produto_encontrado['rentabilidade_simulada'] + ".\n🛡️ *Perfil e Risco:* Indicado para perfis " + ", ".join(produto_encontrado['perfis_compativeis']) + " com risco " + produto_encontrado['risco'] + ".\n⏱️ *Liquidez:* " + produto_encontrado['liquidez'] + ".\n\n💡 *Comparativo com a Poupança:* " + produto_encontrado['comparativo_poupanca']
-                elif tem_interrogacao:
+                    bot_response = f"Perfeito! Deixa eu te guiar de um jeito simples sobre o **{produto_encontrado['sigla']}** ({produto_encontrado['nome']}).\n\n📊 *Rentabilidade simulada:* {produto_encontrado['rentabilidade_simulada']}.\n🛡️ *Perfil e Risco:* Indicado para perfis {', '.join(produto_encontrado['perfis_compativeis'])} com risco {produto_encontrado['risco']}.\n⏱️ *Liquidez:* {produto_encontrado['liquidez']}.\n\n💡 *Comparativo com a Poupança:* {produto_encontrado['comparativo_poupanca']}"
+                
+            # --- SEÇÃO FALLBACKS FINAIS (TOTALMENTE LINEAR E INDEPENDENTE) ---
+            if bot_response == "":
+                if tem_interrogacao:
                     bot_response = "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa de forma prática.\n\nNão localizei esse termo específico no meu catálogo, mas posso te explicar as regras de CDB, Tesouro Selic, LCI/LCA ou Debêntures. Qual desses você tem interesse em compreender?"
-                else:
-
 
 
