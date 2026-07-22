@@ -13,8 +13,14 @@
       "liquidez": "Diária ou No Vencimento",
       "garantia_FGC": true,
       "perfis_compativeis": ["Conservador", "Moderado"],
-      "rentabilidade_simulada": "100% do CDI (Rende aprox. 12% ao ano)",
-      "comparativo_poupanca": "Rende quase o dobro da Poupança com a mesma segurança (Garantido pelo FGC)."
+      "rentabilidade_simulada": "100% do CDI (~12% ao ano)",
+      "comparativo_poupanca": "Rende quase o dobro da Poupança com a mesma segurança (Garantido pelo FGC).",
+      "objetivo": "Reserva de emergência ou ganhos estáveis com segurança.",
+      "sinonimos": ["CDBs", "Certificado Bancário", "dinheiro no banco"],
+      "iof": "Incide apenas nos primeiros 30 dias em caso de resgate.",
+      "taxa_adm_custodia": "Não possui.",
+      "indexador": "CDI",
+      "isencao_ir": false
     },
     {
       "sigla": "LCI / LCA",
@@ -24,8 +30,14 @@
       "liquidez": "Apenas no Vencimento (Mínimo 90 dias)",
       "garantia_FGC": true,
       "perfis_compativeis": ["Conservador", "Moderado"],
-      "rentabilidade_simulada": "90% do CDI (Equivale a um CDB de ~110% por ser Isento de Imposto de Renda)",
-      "comparativo_poupanca": "Como não desconta imposto de renda, o ganho líquido final entrega muito mais dinheiro que a Poupança."
+      "rentabilidade_simulada": "90% do CDI (Equivale a um CDB de ~110% por ser Isento de IR)",
+      "comparativo_poupanca": "Como não desconta imposto de renda, o ganho líquido final entrega muito mais dinheiro que a Poupança.",
+      "objetivo": "Investimento de médio prazo com isenção de IR.",
+      "sinonimos": ["LCIzinha", "LCAzinha", "Letra de Crédito"],
+      "iof": "Incide apenas nos primeiros 30 dias em caso de resgate.",
+      "taxa_adm_custodia": "Não possui.",
+      "indexador": "CDI",
+      "isencao_ir": true
     },
     {
       "sigla": "Tesouro Selic",
@@ -36,7 +48,13 @@
       "garantia_FGC": false,
       "perfis_compativeis": ["Conservador"],
       "rentabilidade_simulada": "Acompanha 100% a Taxa Selic (12.15% ao ano)",
-      "comparativo_poupanca": "É o investimento mais seguro do país porque o garantidor é o Governo Federal. Ideal para reserva de emergência."
+      "comparativo_poupanca": "É o investimento mais seguro do país porque o garantidor é o Governo Federal. Ideal para reserva de emergência.",
+      "objetivo": "Reserva de emergência e liquidez imediata.",
+      "sinonimos": ["Tesouro Direto", "Selicão", "Tesourinho"],
+      "iof": "Incide apenas nos primeiros 30 dias em caso de resgate.",
+      "taxa_adm_custodia": "0,2% ao ano de taxa de custódia da B3.",
+      "indexador": "Selic",
+      "isencao_ir": false
     },
     {
       "sigla": "Tesouro IPCA+",
@@ -46,19 +64,31 @@
       "liquidez": "Longo Prazo (Possui marcação a mercado se resgatar antes)",
       "garantia_FGC": false,
       "perfis_compativeis": ["Moderado", "Arrojado"],
-      "rentabilidade_simulada": "IPCA (Inflação) + Taxa Fixa (Ex: IPCA + 6.00% ao ano)",
-      "comparativo_poupanca": "Garante que o seu dinheiro nunca vai perder o poder de compra real. A Poupança corre o risco de render menos que a inflação."
+      "rentabilidade_simulada": "IPCA + Taxa Fixa (Ex: IPCA + 6.00% ao ano)",
+      "comparativo_poupanca": "Garante que o seu dinheiro nunca vai perder poder de compra real. A Poupança corre o risco de render menos que a inflação.",
+      "objetivo": "Proteção contra inflação e planos de médio/longo prazo.",
+      "sinonimos": ["Tesouro Inflação", "IPCA+", "Tesouro Proteção"],
+      "iof": "Incide apenas nos primeiros 30 dias em caso de resgate.",
+      "taxa_adm_custodia": "0,2% ao ano de taxa de custódia da B3.",
+      "indexador": "IPCA",
+      "isencao_ir": false
     },
     {
       "sigla": "Tesouro Pré-fixado",
       "nome": "Título Público com Taxa Fixa",
       "tipo": "Investimento Governamental",
-      "risco": "Baixo a Médio (Depende da oscilação dos juros)",
-      "liquidez": "Médio a Longo Prazo (Possui marcação a mercado)",
+      "risco": "Baixo a Médio",
+      "liquidez": "Médio a Longo Prazo",
       "garantia_FGC": false,
       "perfis_compativeis": ["Moderado", "Arrojado"],
       "rentabilidade_simulada": "Taxa Fixa Definida (Ex: 11.50% ao ano garantido se levado até o fim)",
-      "comparativo_poupanca": "Você sabe exatamente o valor final no dia da compra. Se os juros da economia caírem, ele continua rendendo muito."
+      "comparativo_poupanca": "Você sabe exatamente o valor final no dia da compra. Se os juros da economia caírem, ele continua rendendo muito.",
+      "objetivo": "Planejamento de médio/longo prazo com previsibilidade.",
+      "sinonimos": ["Tesouro Fixo", "Pré", "Tesouro Taxa Fixa"],
+      "iof": "Incide apenas nos primeiros 30 dias em caso de resgate.",
+      "taxa_adm_custodia": "0,2% ao ano de taxa de custódia da B3.",
+      "indexador": "Taxa Fixa",
+      "isencao_ir": false
     },
     {
       "sigla": "Tesouro RendA+",
@@ -68,8 +98,14 @@
       "liquidez": "No Vencimento (Paga parcelas mensais por 20 anos no futuro)",
       "garantia_FGC": false,
       "perfis_compativeis": ["Conservador", "Moderado"],
-      "rentabilidade_simulada": "IPCA (Inflação) + Taxa de Juros Real (Ex: IPCA + 6.20% ao ano)",
-      "comparativo_poupanca": "Criado especificamente para previdência complementar. Planeja o futuro muito melhor que os rendimentos estagnados da Poupança."
+      "rentabilidade_simulada": "IPCA + Taxa de Juros Real (Ex: IPCA + 6.20% ao ano)",
+      "comparativo_poupanca": "Criado especificamente para previdência complementar. Planeja o futuro muito melhor que os rendimentos estagnados da Poupança.",
+      "objetivo": "Aposentadoria e previdência complementar.",
+      "sinonimos": ["Tesouro Aposentadoria", "RendA+", "Tesouro Futuro"],
+      "iof": "Não aplicável (investimento de longo prazo).",
+      "taxa_adm_custodia": "0,2% ao ano de taxa de custódia da B3.",
+      "indexador": "IPCA + Juros Fixos",
+      "isencao_ir": false
     },
     {
       "sigla": "LC",
@@ -79,8 +115,14 @@
       "liquidez": "Apenas no Vencimento",
       "garantia_FGC": true,
       "perfis_compativeis": ["Moderado"],
-      "rentabilidade_simulada": "Geralmente entre 103% e 115% do CDI",
-      "comparativo_poupanca": "Emitido por financeiras menores, por isso paga taxas mais altas que os grandes bancos e supera muito a Poupança, mantendo a segurança do FGC."
+      "rentabilidade_simulada": "Entre 103% e 115% do CDI",
+      "comparativo_poupanca": "Emitido por financeiras menores, por isso paga taxas mais altas que os grandes bancos e supera muito a Poupança, mantendo a segurança do FGC.",
+      "objetivo": "Ganhos maiores em financeiras menores com proteção do FGC.",
+      "sinonimos": ["Letra de Câmbio", "LCs", "Letra Financeira"],
+      "iof": "Incide apenas nos primeiros 30 dias em caso de resgate.",
+      "taxa_adm_custodia": "Não possui.",
+      "indexador": "CDI",
+      "isencao_ir": false
     },
     {
       "sigla": "Fundos DI / Renda Fixa",
@@ -90,8 +132,14 @@
       "liquidez": "Diária (Resgate em D+0 ou D+1)",
       "garantia_FGC": false,
       "perfis_compativeis": ["Conservador", "Moderado"],
-      "rentabilidade_simulada": "Acompanha de 95% a 102% do CDI (Descontando a taxa de administração)",
-      "comparativo_poupanca": "Uma carteira de vários títulos gerenciada por um profissional. Não tem FGC, mas o risco é pulverizado e rende bem mais que a Poupança."
+      "rentabilidade_simulada": "95% a 102% do CDI (Descontando taxa de administração progressiva). O ideal para um Fundo DI hoje é taxa zero ou no máximo 0,20% ao ano.",
+      "comparativo_poupanca": "Bate a poupança facilmente se a taxa de administração for baixa, mas não conta com FGC.",
+      "objetivo": "Reserva de emergência e caixa de curto prazo.",
+      "sinonimos": ["Fundo DI", "Fundo Renda Fixa", "FI em Cotas"],
+      "iof": "Incide apenas nos primeiros 30 dias em caso de resgate.",
+      "taxa_adm_custodia": "Taxa de administração variável por fundo.",
+      "indexador": "CDI",
+      "isencao_ir": false
     },
     {
       "sigla": "Debêntures",
@@ -101,8 +149,14 @@
       "liquidez": "Longo Prazo / Apenas no Vencimento",
       "garantia_FGC": false,
       "perfis_compativeis": ["Arrojado"],
-      "rentabilidade_simulada": "Geralmente acima de 115% do CDI ou IPCA + Taxa Alta (Ex: IPCA + 7.5%)",
-      "comparativo_poupanca": "Rende agressivamente mais que a Poupança, mas possui risco de crédito da empresa emissora e não conta com o FGC."
+      "rentabilidade_simulada": "Acima de 115% do CDI ou IPCA + Taxa Alta",
+      "comparativo_poupanca": "Rende agressivamente mais que a Poupança, mas possui risco de crédito da empresa emissora e não conta com o FGC.",
+      "objetivo": "Investimento de longo prazo com maior rentabilidade.",
+      "sinonimos": ["Debêntures Corporativas", "Títulos Privados", "Dívida de Empresa"],
+      "iof": "Não aplicável (não há resgate antecipado).",
+      "taxa_adm_custodia": "Pode ter taxa de corretagem.",
+      "indexador": "CDI ou IPCA + Juros",
+      "isencao_ir": false
     },
     {
       "sigla": "CRI / CRA",
@@ -113,18 +167,13 @@
       "garantia_FGC": false,
       "perfis_compativeis": ["Moderado", "Arrojado"],
       "rentabilidade_simulada": "Taxas atrativas (Ex: IPCA + 6.5% ou 102% do CDI) + Isenção total de IR",
-      "comparativo_poupanca": "O retorno é limpo e bate a Poupança com facilidade, mas exige que o investidor aceite prazos mais longos sem FGC."
-    },
-    {
-      "sigla": "CDC",
-      "nome": "Crédito Direto ao Consumidor",
-      "tipo": "Financiamento / Empréstimo Bancário",
-      "risco": "Não se aplica",
-      "liquidez": "Não se aplica",
-      "garantia_FGC": false,
-      "perfis_compativeis": [],
-      "rentabilidade_simulada": "Taxa de juros cobrada (Gera dívida contra o usuário)",
-      "comparativo_poupanca": "Atenção! CDC não é um investimento. É um empréstimo para comprar bens. Ele tira dinheiro do seu bolso em vez de render."
+      "comparativo_poupanca": "O retorno é limpo e bate a Poupança com facilidade, mas exige que o investidor aceite o risco de crédito do setor.",
+      "objetivo": "Retorno de médio a longo prazo sem imposto de renda.",
+      "sinonimos": ["Certificado de Recebíveis", "CRIzinho", "CRAzinho"],
+      "iof": "Não aplicável.",
+      "taxa_adm_custodia": "Não possui taxa de custódia obrigatória.",
+      "indexador": "IPCA ou CDI",
+      "isencao_ir": true
     }
   ]
 }
