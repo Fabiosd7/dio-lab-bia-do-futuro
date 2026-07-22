@@ -82,7 +82,7 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                         break
             
             # Se encontrar o produto, formata a resposta pedagógica com a limitação legal
-            if respuesta_encontrada:
+            if resposta_encontrada:
                 bot_response = f"{resposta_encontrada}\n\n*Nota do Gui: {DADOS_GUI['recusa_educada']}*"
             else:
                 # Resposta genérica padrão caso não identifique um produto específico do banco de dados
