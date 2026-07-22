@@ -24,13 +24,13 @@ if user_input := st.chat_input("Digite sua mensagem..."):
     else:
         with st.spinner("Pensando..."):
             try:
-                # Inicializa o cliente apontando diretamente para o servidor do OpenRouter
+                # Inicializa o cliente apontando para o OpenRouter
                 client = OpenAI(
                     base_url="https://openrouter.ai",
                     api_key=api_key,
                 )
 
-                # Forçamos o modelo 'meta-llama/llama-3-8b-instruct:free' que é o mais estável deles
+                # Chamada correta do modelo
                 response = client.chat.completions.create(
                     model="meta-llama/llama-3-8b-instruct:free",
                     messages=[{"role": m["role"], "content": m["content"]} for m in st.session_state.messages],
@@ -40,12 +40,13 @@ if user_input := st.chat_input("Digite sua mensagem..."):
                     }
                 )
                 
+                # CORREÇÃO DA LINHA: Lendo a resposta no formato correto da biblioteca
                 bot_response = response.choices[0].message.content
+                
                 with st.chat_message("assistant"):
                     st.write(bot_response)
                 st.session_state.messages.append({"role": "assistant", "content": bot_response})
                     
             except Exception as e:
                 st.error(f"Falha na comunicação com a IA: {str(e)}")
-
 
