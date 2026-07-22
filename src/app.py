@@ -126,9 +126,9 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 if produto_encontrado:
                     bot_response = f"Perfeito! Deixa eu te guiar de um jeito simples sobre o **{produto_encontrado['sigla']}** ({produto_encontrado['nome']}).\n\n📊 *Rentabilidade simulada:* {produto_encontrado['rentabilidade_simulada']}.\n🛡️ *Perfil e Risco:* Indicado para perfis {', '.join(produto_encontrado['perfis_compativeis'])} com risco {produto_encontrado['risco']}.\n⏱️ *Liquidez:* {produto_encontrado['liquidez']}.\n\n💡 *Comparativo com a Poupança:* {produto_encontrado['comparativo_poupanca']}"
                 
-            # --- SEÇÃO FALLBACKS FINAIS (TOTALMENTE LINEAR E INDEPENDENTE) ---
+            # --- SEÇÃO FALLBACKS FINAIS (CORRIGIDO COM IF / ELSE RIGIDO) ---
             if bot_response == "":
                 if tem_interrogacao:
                     bot_response = "Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa de forma prática.\n\nNão localizei esse termo específico no meu catálogo, mas posso te explicar as regras de CDB, Tesouro Selic, LCI/LCA ou Debêntures. Qual desses você tem interesse em compreender?"
-
+                else:
 
