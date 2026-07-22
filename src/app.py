@@ -123,7 +123,10 @@ e alguns **CRI/CRA**."""
                     for prod in dados_base["produtos_renda_fixa"]:
                         sigla_norm = normalizar_texto(prod["sigla"])
                         nome_norm = normalizar_texto(prod["nome"])
-                        if sigla_norm in termo_limpo or nome_norm in termo_limpo:
+                        sinonimos_norm = [normalizar_texto(s) for s in prod.get("sinonimos", [])]
+
+                        # Verifica se o termo do usuário bate com sigla, nome ou sinônimo
+                        if termo_limpo in sigla_norm or termo_limpo in nome_norm or termo_limpo in sinonimos_norm:
                             bot_response = f"""Perfeito! Deixa eu te guiar sobre o **{prod['sigla']}** ({prod['nome']}).
 
 📊 Rentabilidade simulada: {prod['rentabilidade_simulada']}
@@ -151,13 +154,5 @@ Esses valores são apenas **simulações educativas**, para mostrar como a renda
 
                 bot_response = f"""Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
 
-Você pode me perguntar sobre qualquer um destes produtos:
-{opcoes_formatadas}
-
-Qual deles você gostaria de compreender melhor?"""
-
-            # Exibe e salva resposta
-            st.write(bot_response)
-            st.session_state.messages.append({"role": "assistant", "content": bot_response})
 
 
