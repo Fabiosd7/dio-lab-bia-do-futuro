@@ -30,7 +30,7 @@ DADOS_GUI = {
 
 # Título e cabeçalho da interface do usuário
 st.title(f"🤖 {DADOS_GUI['nome']} - {DADOS_GUI['titulo']}")
-st.write("Interface ativa com Inteligência Artificial Ultrarrápida da Cerebras!")
+st.write("Interface activa com Inteligência Artificial Ultrarrápida da Cerebras!")
 
 # Barra Lateral (Menu Esquerdo) com as regras de Compliance
 with st.sidebar:
@@ -106,14 +106,14 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                     contexto_api.append({"role": msg["role"], "content": msg["content"]})
                 
                 try:
-                    # Chamada utilizando o modelo Llama 3.1 8b na infraestrutura ultrarrápida da Cerebras
+                    # CORREÇÃO AQUI: Nome do modelo atualizado para o catálogo vigente da Cerebras
                     completion = client.chat.completions.create(
-                        model="llama3.1-8b",
+                        model="llama-3.1-8b-instant",
                         messages=contexto_api,
                         temperature=0.3,
                         max_tokens=1024
                     )
-                    bot_response = completion.choices[0].message.content
+                    bot_response = completion.choices.message.content
                 except Exception as e:
                     bot_response = f"Desculpe, houve uma falha de conexão com a infraestrutura da Cerebras: {str(e)}"
             
@@ -125,5 +125,6 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
                 
             st.write(final_response)
             st.session_state.messages.append({"role": "assistant", "content": final_response})
+
 
 
