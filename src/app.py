@@ -1,19 +1,9 @@
 import streamlit as st
 import json
 import os
-from openai import OpenAI
 
 # Configuração da página Streamlit (DEVE ser o primeiro comando Python do arquivo)
 st.set_page_config(page_title="Gui - Guia Financeiro", page_icon="🤖", layout="centered")
-
-# Inicializa o cliente adaptado para o OpenRouter puxando a chave secreta dos Secrets
-try:
-    client = OpenAI(
-        base_url="https://openrouter.ai",
-        api_key=st.secrets["OPENROUTER_API_KEY"]
-    )
-except Exception:
-    client = None
 
 # Parâmetros fixos de identidade e compliance do Gui (Baseados no seu documento)
 DADOS_GUI = {
@@ -32,7 +22,7 @@ DADOS_GUI = {
 
 # Título e cabeçalho da interface do usuário
 st.title(f"🤖 {DADOS_GUI['nome']} - {DADOS_GUI['titulo']}")
-st.write("Interface ativa e com Inteligência Artificial 100% GRATUITA integrada!")
+st.write("Interface ativa com Motor de Respostas Consultivas Local integrado!")
 
 # Barra Lateral (Menu Esquerdo) com as regras de Compliance visíveis o tempo todo
 with st.sidebar:
@@ -68,64 +58,72 @@ if user_input := st.chat_input("Digite sua dúvida sobre Renda Fixa aqui..."):
         st.write(user_input)
     st.session_state.messages.append({"role": "user", "content": user_input})
 
-    # 2. Resposta do Assistente Inteligente Gui (Processamento da IA + RAG Local)
+    # 2. Motor de Processamento Semântico Local (Simulador de IA Generativa)
     with st.chat_message("assistant"):
-        with st.spinner("O Gui está pensando na resposta..."):
+        with st.spinner("O Gui está analisando a base de conhecimento..."):
             
-            if client is None:
-                bot_response = "Ops! A chave OPENROUTER_API_KEY não foi configurada corretamente nos Secrets do Streamlit."
-                st.write(bot_response)
-                st.session_state.messages.append({"role": "assistant", "content": bot_response})
+            dados_base = carregar_dados_financeiros()
+            termo = user_input.lower()
+            bot_response = ""
+            
+            # Mapeamento de intenções de busca do usuário por palavras-chave semânticas
+            if "segurança" in termo or "seguro" in termo or "perder" in termo or "reserva" in termo:
+                bot_response = (
+                    "Deixa eu te guiar de um jeito simples! Se o seu foco principal é **segurança absoluta** e proteção contra perdas, "
+                    "educacionalmente as melhores opções da nossa base são o **Tesouro Selic** e os **CDBs com liquidez diária**.\n\n"
+                    "O Tesouro Selic é garantido pelo Governo Federal (o que o torna o ativo mais seguro do país), enquanto o CDB possui a proteção do Fundo Garantidor de Crédito (FGC) para valores até R$ 250 mil. "
+                    "Ambos rendem quase o dobro da Poupança tradicional mantendo seu dinheiro protegido."
+                )
+            elif "render mais" in termo or "melhor ganho" in termo or "lucro" in termo or "rentabilidade" in termo:
+                bot_response = (
+                    "Olha, se você busca uma **rentabilidade mais agressiva** dentro da Renda Fixa, o mercado te oferece opções teóricas como as **Debêntures** e os títulos de **CRI / CRA**.\n\n"
+                    "Esses produtos costumam render acima de 115% do CDI ou IPCA + Taxas Altas porque financiam empresas privadas. "
+                    "Mas atenção ao detalhe técnico: eles possuem maior risco e **não contam com a proteção do FGC**, sendo indicados para prazos mais longos."
+                )
+            elif "imposto" in termo or "ir" in termo or "isento" in termo:
+                bot_response = (
+                    "Deixa o Gui te explicar um detalhe que faz muita diferença no bolso! Se você quer fugir do Imposto de Reclamação, "
+                    "existem títulos criados para incentivar setores da economia que são **100% isentos de Imposto de Renda** para pessoa física.\n\n"
+                    "São as **LCI / LCA** (emitidas por bancos e protegidas pelo FGC) e os **CRI / CRA** (crédito privado). "
+                    "Como o governo não desconta nada do seu lucro na hora do resgate, o rendimento líquido final costuma ser muito vantajoso comparado a um CDB comum."
+                )
+            elif "inflação" in termo or "poder de compra" in termo or "ipca" in termo:
+                bot_response = (
+                    "Se a sua preocupação é proteger o seu dinheiro contra o aumento dos preços no supermercado, o conceito ideal para você é o **Tesouro IPCA+**.\n\n"
+                    "Esse título público rende uma taxa fixa mais a variação da inflação oficial (IPCA). Isso garante matematicamente "
+                    "que o seu dinheiro nunca vai perder o poder de compra ao longo dos anos, sendo uma excelente opção conceitual para planos de médio e longo prazo."
+                )
             else:
-                dados_base = carregar_dados_financeiros()
+                # Varre o JSON procurando por siglas diretas se o usuário digitar o nome do produto específico
+                produto_encontrado = None
+                if "produtos_renda_fixa" in dados_base:
+                    for prod in dados_base["produtos_renda_fixa"]:
+                        if prod["sigla"].lower() in termo or prod["nome"].lower() in termo:
+                            produto_encontrado = prod
+                            break
                 
-                system_prompt = f"""
-                Você é o {DADOS_GUI['nome']}, o {DADOS_GUI['titulo']}.
-                Sua personalidade é ser {DADOS_GUI['personalidade']} e seu tom de voz deve ser obrigatoriamente {DADOS_GUI['tom_de_voz']}.
-                
-                DIRETRIZES DE COMPLIANCE JURÍDICO ESTREITAS:
-                1. {DADOS_GUI['limitacoes']}
-                2. {DADOS_GUI['limitacoes']}
-                3. {DADOS_GUI['limitacoes']}
-                4. Sempre que explicar algo, reforce de forma sutil que você não faz recomendações diretas, apenas apresenta conceitos educativos.
-                
-                REGRA DE ANTI-ALUCINAÇÃO (RAG):
-                Você deve responder as dúvidas dos usuários utilizando prioritariamente como fonte da verdade o [BANCO DE DADOS DE PRODUTOS] abaixo. 
-                Se o usuário perguntar sobre ações, criptomoedas, fundos imobiliários ou qualquer produto fora deste arquivo, diga de forma amigável que seu escopo atual é restrito a conceitos de Renda Fixa.
-                
-                [BANCO DE DADOS DE PRODUTOS]:
-                {json.dumps(dados_base, ensure_ascii=False)}
-                """
-                
-                contexto_api = [{"role": "system", "content": system_prompt}]
-                for msg in st.session_state.messages:
-                    contexto_api.append({"role": msg["role"], "content": msg["content"]})
-                
-                try:
-                    # MUDANÇA: Usando o modelo gratuito do Gemini (muito mais robusto contra quedas)
-                    completion = client.chat.completions.create(
-                        model="google/gemini-2.5-flash:free",
-                        messages=contexto_api,
-                        temperature=0.3
+                if produto_encontrado:
+                    bot_response = (
+                        f"Perfeito! Deixa eu te guiar de um jeito simples sobre o **{produto_encontrado['sigla']}** ({produto_encontrado['nome']}).\n\n"
+                        f"📊 *Rentabilidade simulada:* {produto_encontrado['rentabilidade_simulada']}.\n"
+                        f"🛡️ *Perfil e Risco:* Indicado para perfis {', '.join(produto_encontrado['perfis_compativeis'])} com risco {produto_encontrado['risco']}.\n"
+                        f"⏱️ *Liquidez:* {produto_encontrado['liquidez']}.\n\n"
+                        f"💡 *Comparativo com a Poupança:* {produto_encontrado['comparativo_poupanca']}"
                     )
-                    
-                    # Captura a resposta tratando se vier como texto (evitando códigos HTML) ou JSON
-                    if isinstance(completion, str):
-                        if "<doctype html" in completion.lower() or "<html" in completion.lower():
-                            bot_response = "O servidor gratuito do OpenRouter está instável no momento. Pode tentar enviar sua mensagem novamente?"
-                        else:
-                            bot_response = completion
-                    elif hasattr(completion, 'choices') and len(completion.choices) > 0:
-                        bot_response = completion.choices[0].message.content
-                    else:
-                        dados_resposta = dict(completion)
-                        bot_response = dados_resposta['choices'][0]['message']['content']
-                        
-                except Exception as e:
-                    bot_response = "Opa, o servidor de IA gratuito demorou para responder. Por favor, envie sua mensagem novamente!"
-                
-                st.write(bot_response)
-                st.session_state.messages.append({"role": "assistant", "content": bot_response})
+                else:
+                    # Fallback consultivo padrão se a pergunta for muito genérica
+                    bot_response = (
+                        "Entendi perfeitamente sua dúvida! Como seu amigo inteligente de educação financeira, "
+                        "posso te explicar de forma simples todos os conceitos do mercado de Renda Fixa.\n\n"
+                        "Para eu te dar a explicação conceitual perfeita, me conta: você prioriza **segurança absoluta**, "
+                        "quer um investimento que seja **isento de Imposto de Renda** ou busca algo focado em **longo prazo**?"
+                    )
+            
+            # Adiciona a recusa educada obrigatória de compliance no final de todos os fluxos
+            final_response = f"{bot_response}\n\n*Nota do Gui: {DADOS_GUI['recusa_educada']}*"
+            
+            st.write(final_response)
+            st.session_state.messages.append({"role": "assistant", "content": final_response})
 
 
 
