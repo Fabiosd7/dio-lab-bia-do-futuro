@@ -99,6 +99,7 @@ isentas de Imposto de Renda ou títulos para o longo prazo?"""
             elif any(g in termo_limpo for g in gatilhos_saudacoes):
                 bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋
             elif any(g in termo_limpo for g in gatilhos_genericos_investir):
+                # Mantém vazio para cair no fallback
                 bot_response = ""
 
 Estou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.
