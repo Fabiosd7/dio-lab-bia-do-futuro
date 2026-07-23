@@ -42,7 +42,7 @@
       "isencao_ir": true
     },
     {
-      "sigla": "Tesouro Selic",
+      "sigla": ["Tesouro Selic", "Tesouro Direto"],
       "nome": "Título Público Federal (Tesouro Direto)",
       "tipo": "Investimento Governamental",
       "risco": "Muito Baixo",
