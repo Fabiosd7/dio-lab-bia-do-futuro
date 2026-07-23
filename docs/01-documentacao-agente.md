@@ -58,6 +58,7 @@ flowchart TD
     E --> F[Resposta do Gui]
 
 ```
+---
 
 ### Componentes
 
