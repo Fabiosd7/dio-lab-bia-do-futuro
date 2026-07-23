@@ -91,12 +91,15 @@ isentas de Imposto de Renda ou títulos para o longo prazo?"""
             gatilhos_tudo_bem = ["tudo bem","tudo bom","tudo joia","tudo otimo","tudo certo","tudo beleza"]
             gatilhos_saudacoes = ["oi","ola","bom dia","boa tarde","boa noite","eae","opa","salve","fala"]
             gatilhos_concordancia = ["sim","entendi","ok","beleza","com certeza","bora","vamos","pode ser","fechou","demoro"]
-
+            gatilhos_genericos_investir = [ "melhor investimento", "onde aplicar", "aplicar dinheiro","onde investir", "guardar dinheiro", "aplicacao melhor","investir melhor", "onde colocar meu dinheiro"]
+          
             # Regras de resposta
             if any(g in termo_limpo for g in gatilhos_tudo_bem):
                 bot_response = respostas_tudo_bem[tem_interrogacao]
             elif any(g in termo_limpo for g in gatilhos_saudacoes):
                 bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋
+            elif any(g in termo_limpo for g in gatilhos_genericos_investir):
+                bot_response = ""
 
 Estou aqui para tirar suas dúvidas conceituais sobre o mercado de Renda Fixa.
 O que você gostaria de explorar ou entender melhor hoje?"""
