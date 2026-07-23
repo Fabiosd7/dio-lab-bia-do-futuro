@@ -20,7 +20,7 @@ Descreva se usou os arquivos da pasta `data`, por exemplo:
 
 > Você modificou ou expandiu os dados mockados? Descreva aqui.
 
-Os dados simulados originais foram substituídos por uma nova estrutura em formato JSON focada em educação financeira básica. A base foi expandida para incluir taxas de mercado simuladas (como CDI a 12.00% e Selic a 12.15%) e um comparativo didático de produtos como CDB, LCI, LCA e Tesouro Selic diretamente contra o rendimento da Poupança. Além disso, foi adicionado o produto fictício CDC para fins de alerta e diferenciação entre investimentos e linhas de crédito.
+Os dados simulados originais foram substituídos por uma nova estrutura em formato JSON focada em educação financeira básica. A base foi expandida para incluir taxas de mercado simuladas (como CDI a 12.00% e Selic a 12.15%) e um comparativo didático de produtos como CDB, LCI, LCA e Tesouro Selic diretamente contra o rendimento da Poupança. 
 
 
 ---
@@ -35,7 +35,7 @@ Os dados simulados originais foram substituídos por uma nova estrutura em forma
 ### Como os dados são usados no prompt?
 > Os dados vão no system prompt? São consultados dinamicamente?
 
-Os dados de produtos e taxas não são armazenados localmente. Eles são consumidos dinamicamente no início da execução da interface por meio de uma requisição HTTP à URL 'Raw' do repositório no GitHub usando a biblioteca `requests`. Uma vez carregados, esses dados estruturados em JSON são convertidos em string e injetados de forma integral diretamente na memória do prompt de guardrails enviado ao modelo da Google Gemini API (gemini-1.5-flash) a cada interação do usuário.
+Os dados de produtos e taxas são estruturados diretamente no código fonte em um dicionário Python (JSON estruturado na memória ativa). A consulta ocorre de forma estática e local a cada interação: o motor de busca lê a pergunta do usuário e busca por palavras-chave mapeadas. Quando encontra uma correspondência (como "CDB" ou "Poupança"), o algoritmo extrai as explicações e simulações correspondentes diretamente dessa base de conhecimento interna, eliminando a dependência de requisições de rede ou injeção de prompts em LLMs externas.
 
 
 ---
