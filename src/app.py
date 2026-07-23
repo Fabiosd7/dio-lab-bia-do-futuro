@@ -159,7 +159,7 @@ Você pode me perguntar sobre qualquer um destes produtos:
 
 Qual deles você gostaria de compreender melhor?"""
 
-            # Ex
-
-
+            # Exibe e salva resposta SEMPRE
+            st.write(bot_response)
+            st.session_state.messages.append({"role": "assistant", "content": bot_response})
 
