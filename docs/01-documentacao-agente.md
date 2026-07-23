@@ -62,11 +62,12 @@ graph TD
 ### Componentes
 
 | Componente | Descrição |
-|------------|-----------|
-| Interface | [ex: Chatbot em Streamlit] |
-| LLM | [ex: GPT-4 via API] |
-| Base de Conhecimento | [ex: JSON/CSV com dados do cliente] |
-| Validação | [ex: Checagem de alucinações] |
+| :--- | :--- |
+| **Interface** | Interface conversacional interativa desenvolvida em Streamlit. |
+| **Motor de Busca** | Algoritmo local em Python focado em mapeamento de palavras-chave. |
+| **Base de Conhecimento** | Dicionário interno estruturado com dados e simulações de Renda Fixa. |
+| **Validação** | Filtro regulatório para garantir respostas exclusivamente educativas (CVM). |
+
 
 ---
 
