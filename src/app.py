@@ -97,7 +97,7 @@ isentas de Imposto de Renda ou títulos para o longo prazo?"""
             if any(g in termo_limpo for g in gatilhos_tudo_bem):
                 bot_response = respostas_tudo_bem[tem_interrogacao]
             elif any(g in termo_limpo for g in gatilhos_saudacoes):
-                bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋
+                bot_response = """Olá! Tudo ótimo por aqui! É um prazer falar com você. 👋"""
             elif any(g in termo_limpo for g in gatilhos_genericos_investir):
                 # Mantém vazio para cair no fallback
                 bot_response = ""
