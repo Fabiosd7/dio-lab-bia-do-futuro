@@ -49,14 +49,13 @@ Investidores iniciantes, pessoas que deixam o dinheiro na poupança por medo ou 
 ### Diagrama
 
 ```mermaid
-flowchart TD
+graph TD
     A[Usuário] --> B["Streamlit (Interface Visual)"]
-    B --> C[LLM]
-    C --> D[Base de Conhecimento]
+    B --> C[Mapeador de Palavras-Chave]
+    C --> D[Base de Conhecimento Interna]
     D --> C
-    C --> E[Validação de Segurança / CVM]
+    C --> E[Validação de Diretrizes CVM]
     E --> F[Resposta do Gui]
-
 ```
 ---
 
