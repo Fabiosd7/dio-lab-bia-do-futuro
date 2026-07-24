@@ -142,5 +142,5 @@ Qual deles você gostaria de compreender melhor? ESCREVA APENAS O NOME DO PRODUT
 
 > Registre aqui ajustes que você fez nos prompts e por quê.
 
-- [Observação 1]
-- [Observação 2]
+- **Pivotagem de IA para Algoritmo Local:** O plano inicial previa injeção de dados no prompt de uma LLM externa. Devido a limitações severas de hardware local (memória RAM) para rodar o Llama e falhas de autenticação com múltiplas chaves de APIs gratuitas na nuvem, o prompt dinâmico foi totalmente substituído por um motor de busca local baseado em mapeamento de palavras-chave estruturado no código Python.
+- **Otimização de Recursos no Streamlit Cloud:** A mudança para respostas estáticas locais evitou o estouro do limite de 1 GB de RAM do servidor gratuito do Streamlit Community Cloud. O maior aprendizado técnico foi entender que, no desenvolvimento de software, simplificar a arquitetura para usar recursos locais é uma solução de engenharia legítima e altamente eficiente quando há restrições severas de infraestrutura e custos.
