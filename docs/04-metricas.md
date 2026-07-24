@@ -59,6 +59,7 @@ Você pode testar o "Gui" rodando ao vivo diretamente no navegador através do l
 
 ### 📸 Demonstração Visual
 Abaixo está o registro do chat respondendo consultas sobre Renda Fixa de forma estruturada, didática e em conformidade com as regras educativas:
+
 <img width="373" height="760" alt="image" src="https://github.com/user-attachments/assets/18ce8a04-9798-4286-89a4-0b18a20b471a" />
 
 
