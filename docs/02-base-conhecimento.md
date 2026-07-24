@@ -6,7 +6,7 @@
 
 | Arquivo | Formato | Utilização no Agente |
 | :--- | :--- | :--- |
-| `produtos_financeiros.json` | JSON | Base de conhecimento online para comparar investimentos simulados com a Poupança e alertar sobre o CDC. |
+| `produtos_financeiros.json` | JSON | Base de conhecimento online para comparar investimentos simulados com a Poupança . |
 
 
 
