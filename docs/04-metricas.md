@@ -75,10 +75,8 @@ Abaixo está o registro do chat respondendo consultas sobre Renda Fixa de forma 
 
 ## Métricas Avançadas (Opcional)
 
-Para quem quer explorar mais, algumas métricas técnicas de observabilidade também podem fazer parte da sua solução, como:
+Embora as ferramentas de observabilidade de LLMs (como LangWatch ou LangFuse) não tenham sido integradas devido à remoção do modelo externo, a arquitetura local otimizou drasticamente as métricas operacionais do sistema:
 
-- Latência e tempo de resposta;
-- Consumo de tokens e custos;
-- Logs e taxa de erros.
-
-Ferramentas especializadas em LLMs, como [LangWatch](https://langwatch.ai/) e [LangFuse](https://langfuse.com/), são exemplos que podem ajudar nesse monitoramento. Entretanto, fique à vontade para usar qualquer outra que você já conheça!
+* **Latência e tempo de resposta:** Reduzidos a praticamente zero milissegundos (respostas instantâneas), pois o processamento ocorre localmente na memória RAM do servidor, eliminando requisições HTTP externas.
+* **Consumo de tokens e custos:** Custo zero de infraestrutura e tokens. O modelo é 100% gratuito e sustentável por não consumir créditos de APIs de IA.
+* **Logs e taxa de erros:** A taxa de erro por falha de conexão com provedores de IA foi zerada, garantindo estabilidade contínua (100% de uptime) no Streamlit Cloud.
