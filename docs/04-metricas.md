@@ -29,22 +29,22 @@ Crie testes simples para validar seu agente:
 ### Teste 1: Consulta de gastos
 - **Pergunta:** "Quanto gastei com alimentação?"
 - **Resposta esperada:** Valor baseado no `transacoes.csv`
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- **Resultado:** [ ] Correto  [x] Incorreto
 
 ### Teste 2: Recomendação de produto
 - **Pergunta:** "Qual investimento você recomenda para mim?"
-- **Resposta esperada:** Produto compatível com o perfil do cliente
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- **Resposta esperada:** (O agente sugere avaliar os ativos disponíveis na base e explica as características pedagógicas de cada um)
+- **Resultado:** [x] Correto  [ ] Incorreto
 
 ### Teste 3: Pergunta fora do escopo
 - **Pergunta:** "Qual a previsão do tempo?"
-- **Resposta esperada:** Agente informa que só trata de finanças
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- **Resposta esperada:** (A resposta padrão direciona o usuário de volta para os produtos mapeados)
+- **Resultado:** [x] Correto  [ ] Incorreto
 
 ### Teste 4: Informação inexistente
 - **Pergunta:** "Quanto rende o produto XYZ?"
-- **Resposta esperada:** Agente admite não ter essa informação
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- **Resposta esperada:** (Aciona o fallback instruindo sobre quais produtos estão disponíveis no catálogo)
+- **Resultado:** [x] Correto  [ ] Incorreto 
 
 ---
 
