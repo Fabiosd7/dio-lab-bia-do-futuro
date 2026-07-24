@@ -159,7 +159,7 @@ Esses valores são apenas **simulações educativas**, para mostrar como a renda
 Você pode me perguntar sobre qualquer um destes produtos:
 {opcoes_formatadas}
 
-Qual deles você gostaria de compreender melhor?"""
+Qual deles você gostaria de compreender melhor? ESCREVA APENAS O NOME DO PRODUTO. Ex: CDB ou Tesouro Selic (Tesouro Direto)"""
 
             # Exibe e salva resposta SEMPRE
             st.write(bot_response)
