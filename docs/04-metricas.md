@@ -55,13 +55,12 @@ O projeto foi concluído com sucesso e está **100% funcional e online**. A arqu
 
 ### 🌐 Link do Aplicativo Online
 Você pode testar o "Gui" rodando ao vivo diretamente no navegador através do link abaixo:
-👉 **https://streamlit.app** 
+👉 **https://dio-lab-bia-do-futuro-fptbcmxh5wiobws3xz3ec7.streamlit.app/** 
 
 ### 📸 Demonstração Visual
 Abaixo está o registro do chat respondendo consultas sobre Renda Fixa de forma estruturada, didática e em conformidade com as regras educativas:
-<img width="378" height="761" alt="image" src="https://github.com/user-attachments/assets/740034ee-1c6d-4031-978e-c91a477ad30f" />
+<img width="373" height="760" alt="image" src="https://github.com/user-attachments/assets/18ce8a04-9798-4286-89a4-0b18a20b471a" />
 
-!(https://githubusercontent.com)
 
 **O que funcionou bem:**
 -O que funcionou muito bem no projeto foi a resiliência e estabilidade da interface desenvolvida em Streamlit, associada à implementação bem-sucedida do Continuous Deployment (implantação contínua) via GitHub no Streamlit Community Cloud. A mudança estratégica para um motor de busca local e dicionário estático em Python se mostrou uma excelente solução de engenharia: ela eliminou completamente o tempo de latência nas respostas e resolveu o gargalo de consumo de memória RAM do servidor gratuito, garantindo que o aplicativo ficasse 100% online e funcional. Além disso, a estruturação visual com histórico de mensagens fluido e ícones funcionais proporcionou uma excelente experiência de usuário (UX), mantendo as respostas do agente 'Gui' sempre rápidas, didáticas e estritamente alinhadas com as diretrizes educativas exigidas para o desafio.
