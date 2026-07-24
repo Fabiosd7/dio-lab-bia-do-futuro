@@ -65,10 +65,10 @@ Abaixo está o registro do chat respondendo consultas sobre Renda Fixa de forma 
 
 ![Demonstração do Chat do Gui](https://githubusercontent.com)
 **O que funcionou bem:**
-- [Liste aqui]
+-O que funcionou muito bem no projeto foi a resiliência e estabilidade da interface desenvolvida em Streamlit, associada à implementação bem-sucedida do Continuous Deployment (implantação contínua) via GitHub no Streamlit Community Cloud. A mudança estratégica para um motor de busca local e dicionário estático em Python se mostrou uma excelente solução de engenharia: ela eliminou completamente o tempo de latência nas respostas e resolveu o gargalo de consumo de memória RAM do servidor gratuito, garantindo que o aplicativo ficasse 100% online e funcional. Além disso, a estruturação visual com histórico de mensagens fluido e ícones funcionais proporcionou uma excelente experiência de usuário (UX), mantendo as respostas do agente 'Gui' sempre rápidas, didáticas e estritamente alinhadas com as diretrizes educativas exigidas para o desafio.
 
 **O que pode melhorar:**
-- [Liste aqui]
+- Como pontos de melhoria futura, o principal objetivo é realizar a integração completa do projeto a uma LLM de mercado. Durante o desenvolvimento, o escopo inicial foi limitado por restrições técnicas: primeiro, devido à limitação de hardware (memória RAM) do ambiente local para baixar e rodar o modelo Llama; segundo, por conta de instabilidades de rede e autenticação com chaves de APIs gratuitas de múltiplos provedores de IA (como Groq, Gemini e Cerebras), que apresentaram falhas de execução no ambiente de deploy. Para garantir a entrega e a estabilidade do app online no Streamlit Cloud, adotei uma arquitetura de contingência baseada em um motor de busca local e dicionário estático mapeado em Python, que consome as diretrizes e dados do arquivo 'produtos_financeiros.json' da pasta 'data'. Uma evolução futura natural seria estabilizar o pipeline de conexões externas via variáveis de ambiente robustas para dar capacidades generativas completas ao agente Gui.
 
 ---
 
