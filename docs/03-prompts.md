@@ -33,12 +33,18 @@ REGRAS:
 
 **Usuário:**
 ```
-"Tenho um dinheiro na poupança, mas ouvi falar que CDB rende mais. O que é isso?"
+" CDB "
 ```
 
 **Agente:**
 ```
-"Oi! Que ótimo que você está querendo fazer seu dinheiro render mais. Deixa eu te guiar nisso de um jeito bem simples! Pensar em CDB é como emprestar dinheiro para o banco. Em troca, ele te devolve o valor com juros (rendimento) depois de um tempo. A poupança hoje rende um valor fixo bem baixo. Já um CDB comum rende uma porcentagem de uma taxa chamada CDI, o que quase sempre dá mais dinheiro que a poupança com a mesma segurança! Vamos simular a diferença entre os dois para o seu caso?"
+"Perfeito! Deixa eu te guiar sobre o CDB (Certificado de Depósito Bancário).
+
+📊 Rentabilidade simulada: 100% do CDI (~12% ao ano) 📈 Exemplo de Simulação: Se você investir R 1.000, terá cerca de R 1.099 (contra R 1.062 na poupança). Para R 10.000, terá cerca de R 10.990 (contra R 10.617 na poupança). 🛡️ Perfil e Risco: Indicado para perfis Conservador, Moderado com risco Baixo ⏱️ Liquidez: Diária ou No Vencimento 🔒 Garantia FGC: Sim
+
+💡 Comparativo com a Poupança: Rende quase o dobro da Poupança com a mesma segurança (Garantido pelo FGC). 🎯 Objetivo: Reserva de emergência ou ganhos estáveis com segurança. 🔖 Também conhecido como: CDBs, Certificado Bancário, dinheiro no banco
+
+Esses valores são apenas simulações educativas, para mostrar como a renda fixa supera a poupança."
 ```
 
 ---
@@ -55,7 +61,7 @@ REGRAS:
 
 **Agente:**
 ```
-"Compreendo perfeitamente o seu desejo de buscar a maior rentabilidade para as suas economias! Como um agente focado puramente em educação financeira, eu não posso fazer recomendações diretas de investimentos ou indicar instituições específicas. Mas o Gui te ajuda a entender o mapa das opções! Para esse valor inicial, o mais recomendado didaticamente é focar em construir sua reserva de emergência usando categorias de Renda Fixa de alta liquidez (como um CDB de liquidez diária ou Tesouro Selic). Quer entender como essas duas categorias funcionam na prática?"
+"Se você busca rentabilidade mais agressiva, opções como Debêntures e CRI/CRA podem aparecer. Mas atenção: não contam com a proteção do FGC e envolvem maior risco."
 ```
 
 ---
@@ -71,7 +77,21 @@ REGRAS:
 
 **Agente:**
 ```
-[ex: Sou especializado em finanças e não tenho informações sobre previsão do tempo. Posso ajudar com algo relacionado às suas finanças?]
+[ex: Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
+
+Você pode me perguntar sobre qualquer um destes produtos:
+
+CDB
+LCI / LCA
+Tesouro Selic
+Tesouro IPCA+
+Tesouro Pré-fixado
+Tesouro RendA+
+Letra de Câmbio
+Fundos DI / Renda Fixa
+Debêntures
+CRI / CRA
+Qual deles você gostaria de compreender melhor? ESCREVA APENAS O NOME DO PRODUTO. Ex: CDB ou Tesouro Selic (Tesouro Direto)]
 ```
 
 ---
@@ -85,7 +105,21 @@ REGRAS:
 
 **Agente:**
 ```
-[ex: Não tenho acesso a senhas e não posso compartilhar informações de outros clientes. Como posso ajudar com suas próprias finanças?]
+[ex: Essa é uma ótima pergunta! Como seu guia, eu uso a nossa base de dados para esclarecer conceitos de Renda Fixa.
+
+Você pode me perguntar sobre qualquer um destes produtos:
+
+CDB
+LCI / LCA
+Tesouro Selic
+Tesouro IPCA+
+Tesouro Pré-fixado
+Tesouro RendA+
+Letra de Câmbio
+Fundos DI / Renda Fixa
+Debêntures
+CRI / CRA
+Qual deles você gostaria de compreender melhor? ESCREVA APENAS O NOME DO PRODUTO. Ex: CDB ou Tesouro Selic (Tesouro Direto)]
 ```
 
 ---
@@ -99,7 +133,7 @@ REGRAS:
 
 **Agente:**
 ```
-[ex: Para fazer uma recomendação adequada, preciso entender melhor seu perfil. Você já preencheu seu questionário de perfil de investidor?]
+[ex: Existem títulos isentos de Imposto de Renda para pessoa física, como LCI/LCA e alguns CRI/CRA.]
 ```
 
 ---
