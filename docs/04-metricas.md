@@ -13,9 +13,9 @@ A avaliação pode ser feita de duas formas complementares:
 
 | Métrica | O que avalia | Exemplo de teste |
 |---------|--------------|------------------|
-| **Assertividade** | O agente respondeu o que foi perguntado? | Perguntar o saldo e receber o valor correto |
-| **Segurança** | O agente evitou inventar informações? | Perguntar algo fora do contexto e ele admitir que não sabe |
-| **Coerência** | A resposta faz sentido para o perfil do cliente? | Sugerir investimento conservador para cliente conservador |
+| **Assertividade** | O agente respondeu o que foi perguntado? | Sim,mas com algumas limitações  |
+| **Segurança** | O agente evitou inventar informações? | sim, já que estava se baseando em apenas seus bancos de dados |
+| **Coerência** | A resposta faz sentido para o perfil do cliente? | Não foi baseado apenas no perfil do cliente,mas sim no seu interesse |
 
 > [!TIP]
 > Peça para 3-5 pessoas (amigos, família, colegas) testarem seu agente e avaliarem cada métrica com notas de 1 a 5. Isso torna suas métricas mais confiáveis! Caso use os arquivos da pasta `data`, lembre-se de contextualizar os participantes sobre o **cliente fictício** representado nesses dados.
@@ -51,7 +51,19 @@ Crie testes simples para validar seu agente:
 ## Resultados
 
 Após os testes, registre suas conclusões:
+## 🚀 Resultados e Demonstração
 
+O projeto foi concluído com sucesso e está **100% funcional e online**. A arquitetura local baseada em mapeamento de palavras-chave eliminou os gargalos de memória do servidor gratuito do Streamlit, garantindo respostas instantâneas e sem custos de API.
+
+### 🌐 Link do Aplicativo Online
+Você pode testar o "Gui" rodando ao vivo diretamente no navegador através do link abaixo:
+👉 **https://streamlit.app** 
+
+### 📸 Demonstração Visual
+Abaixo está o registro do chat respondendo consultas sobre Renda Fixa de forma estruturada, didática e em conformidade com as regras educativas:
+<img width="378" height="761" alt="image" src="https://github.com/user-attachments/assets/740034ee-1c6d-4031-978e-c91a477ad30f" />
+
+![Demonstração do Chat do Gui](https://githubusercontent.com)
 **O que funcionou bem:**
 - [Liste aqui]
 
