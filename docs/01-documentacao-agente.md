@@ -75,10 +75,10 @@ graph TD
 
 ### Estratégias Adotadas
 
-- [ ] O agente baseia suas respostas exclusivamente nas bases de dados validadas, ignorando conhecimentos externos que possam gerar alucinações.
-- [ ] Bloqueio sistêmico contra indicações de ativos específicos, tickers ou marcas de instituições financeiras.
-- [ ] O agente é instruído a reportar limitações de conhecimento de forma clara, em vez de deduzir respostas incertas.
-- [ ] Foco exclusivo na alfabetização financeira e na democratização de conceitos básicos de economia.
+- [x] O agente baseia suas respostas exclusivamente nas bases de dados validadas, ignorando conhecimentos externos que possam gerar alucinações.
+- [x] Bloqueio sistêmico contra indicações de ativos específicos, tickers ou marcas de instituições financeiras.
+- [x] O agente é instruído a reportar limitações de conhecimento de forma clara, em vez de deduzir respostas incertas.
+- [x] Foco exclusivo na alfabetização financeira e na democratização de conceitos básicos de economia.
 
 ### Limitações Declaradas
 > O que o agente NÃO faz?
